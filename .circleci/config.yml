@@ -43,8 +43,7 @@ jobs:
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Deploy
-          command: aws s3 sync index.html s3://richardnias.com --region eu-west-2 &&\
-                   aws s3 sync favicon.png s3://richardnias.com --region eu-west-2 &&\
+          command: aws s3 sync . s3://richardnias.com --region eu-west-2 --include "index.html" &&\
                    aws s3 sync build s3://richardnias.com --region eu-west-2
 
 workflows:
