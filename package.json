@@ -1,0 +1,32 @@
+{
+  "name": "richardnias.com",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardnias/richardnias.com.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/richardnias/richardnias.com/issues"
+  },
+  "engines": {
+    "node": "10.x.x"
+  },
+  "homepage": "https://github.com/richardnias/richardnias.com#readme",
+  "dependencies": {
+    "three": "^0.96.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.1",
+    "@babel/preset-env": "^7.0.0",
+    "rollup": "^0.65.2",
+    "rollup-plugin-babel": "^4.0.3"
+  }
+}
