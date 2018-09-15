@@ -13,6 +13,22 @@ jobs:
     steps:
       - checkout
 
+      - restore_cache:
+          key: v1-deps-{{ checksum "package.json" }}
+
+      - run:
+          name: Install deps
+          command: npm ci
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-deps-{{ checksum "package.json" }}
+
+      - run:
+          name: Build
+          command: npm run build
+
       - save_cache:
           paths:
             - .
@@ -27,7 +43,11 @@ jobs:
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Deploy
-          command: aws s3 sync . s3://richardnias.com --region eu-west-2
+          command: aws s3 sync . s3://richardnias.com --region eu-west-2 \
+                    --exclude "*" \
+                    --include index.html \
+                    --include build \
+                    --include favicon.png
 
 workflows:
   version: 2
