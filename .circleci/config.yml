@@ -44,6 +44,7 @@ jobs:
       - run:
           name: Deploy
           command: aws s3 sync . s3://richardnias.com --region eu-west-2 --exclude "*" --include "index.html" &&\
+                   aws s3 sync . s3://richardnias.com --region eu-west-2 --exclude "*" --include "favicon.png" &&\
                    aws s3 sync build s3://richardnias.com --region eu-west-2
 
 workflows:
