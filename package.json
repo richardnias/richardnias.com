@@ -8,7 +8,8 @@
     "lint": "standard",
     "lint-fix": "standard --fix",
     "rollup": "rollup -c",
-    "build": "npm run lint-fix && npm run rollup"
+    "build": "npm run lint-fix && npm run rollup",
+    "dev": "rollup -c -w"
   },
   "repository": {
     "type": "git",
@@ -24,14 +25,22 @@
   },
   "homepage": "https://github.com/richardnias/richardnias.com#readme",
   "dependencies": {
+    "rollup-plugin-postcss": "^1.6.2",
     "three": "^0.96.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",
     "@babel/preset-env": "^7.0.0",
+    "cssnano": "^4.1.0",
+    "postcss-cssnext": "^3.1.0",
+    "postcss-nested": "^4.1.0",
+    "postcss-simple-vars": "^5.0.1",
     "rollup": "^0.65.2",
     "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-standard": "^1.0.0",
+    "rollup-plugin-uglify": "^5.0.2",
+    "rollup-watch": "^4.3.1",
     "standard": "^12.0.1"
   }
 }
