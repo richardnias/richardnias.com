@@ -1,3 +1,4 @@
+// async polyfill
 import 'regenerator-runtime/runtime'
 import page from 'page'
 
