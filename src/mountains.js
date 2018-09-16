@@ -1,4 +1,15 @@
-import * as THREE from 'three'
+import { CanvasTexture } from 'three/src/textures/CanvasTexture'
+import { ClampToEdgeWrapping } from 'three/src/constants'
+import { Color } from 'three/src/math/Color'
+import { FogExp2 } from 'three/src/scenes/FogExp2'
+import { Mesh } from 'three/src/objects/Mesh'
+import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial'
+import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera'
+import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry'
+import { Scene } from 'three/src/scenes/Scene'
+import { Vector3 } from 'three/src/math/Vector3'
+import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
+
 import Detector from './lib/detector.js'
 import ImprovedNoise from './lib/improvedNoise'
 import removeCanvas from './lib/removeCanvas'
@@ -32,18 +43,18 @@ function init () {
   radius = 1000
   hypotenuse = Math.sqrt(radius * radius * 2)
   theta = 0
-  lookPosition = new THREE.Vector3(0, 0, 0)
+  lookPosition = new Vector3(0, 0, 0)
 
-  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
-  scene = new THREE.Scene()
-  scene.background = new THREE.Color(0xd595a3)
-  scene.fog = new THREE.FogExp2(0xd595a3, 0.001)
+  camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
+  scene = new Scene()
+  scene.background = new Color(0xd595a3)
+  scene.fog = new FogExp2(0xd595a3, 0.001)
 
   data = generateHeight(worldWidth, worldDepth)
 
   height = data[worldWidth / 2 + worldDepth / 2 * worldWidth] * 10 + 500
 
-  const geometry = new THREE.PlaneBufferGeometry(planeWidth, planeDepth, worldWidth - 1, worldDepth - 1)
+  const geometry = new PlaneBufferGeometry(planeWidth, planeDepth, worldWidth - 1, worldDepth - 1)
   geometry.rotateX(-Math.PI / 2)
 
   let vertices = geometry.attributes.position.array
@@ -51,14 +62,14 @@ function init () {
   for (let i = 0, j = 0; i < vertices.length; i++, j += 3) {
     vertices[j + 1] = data[i] * 10
   }
-  texture = new THREE.CanvasTexture(generateTexture(data, worldWidth, worldDepth))
-  texture.wrapS = THREE.ClampToEdgeWrapping
-  texture.wrapT = THREE.ClampToEdgeWrapping
+  texture = new CanvasTexture(generateTexture(data, worldWidth, worldDepth))
+  texture.wrapS = ClampToEdgeWrapping
+  texture.wrapT = ClampToEdgeWrapping
 
-  mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ map: texture }))
+  mesh = new Mesh(geometry, new MeshBasicMaterial({ map: texture }))
   scene.add(mesh)
 
-  renderer = new THREE.WebGLRenderer()
+  renderer = new WebGLRenderer()
   renderer.setPixelRatio(window.devicePixelRatio)
   renderer.setSize(window.innerWidth, window.innerHeight)
 
@@ -96,9 +107,9 @@ function generateHeight (width, height) {
 function generateTexture (data, width, height) {
   let context, image, imageData
 
-  const vector3 = new THREE.Vector3(0, 0, 0)
+  const vector3 = new Vector3(0, 0, 0)
 
-  const sun = new THREE.Vector3(1, 1, 1)
+  const sun = new Vector3(1, 1, 1)
   sun.normalize()
 
   const canvas = document.createElement('canvas')

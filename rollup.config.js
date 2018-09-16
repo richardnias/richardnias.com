@@ -1,5 +1,6 @@
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
+import glsl from 'rollup-plugin-glsl'
 import notify from 'rollup-plugin-notify'
 import resolve from 'rollup-plugin-node-resolve'
 import standard from 'rollup-plugin-standard'
@@ -15,6 +16,9 @@ export default {
   experimentalCodeSplitting: true,
   plugins: [
     notify(),
+    glsl({
+      include: '**/*.glsl'
+    }),
     resolve({
       module: true,
       jsnext: true
