@@ -1,11 +1,14 @@
 import * as THREE from 'three'
 import Detector from './lib/detector.js'
+import removeCanvas from './lib/removeCanvas'
 
 let camera, scene, renderer, geometry, material, mesh
 
-if (Detector.webgl) {
-  init()
-  animate()
+export default function main () {
+  if (Detector.webgl) {
+    init()
+    animate()
+  }
 }
 
 window.addEventListener('resize', onWindowResize, false)
@@ -25,6 +28,8 @@ function init () {
 
   renderer = new THREE.WebGLRenderer({ antialias: true })
   renderer.setSize(window.innerWidth, window.innerHeight)
+
+  removeCanvas()
   document.body.appendChild(renderer.domElement)
 }
 

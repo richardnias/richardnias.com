@@ -1,10 +1,13 @@
 import * as THREE from 'three'
 import Detector from './lib/detector.js'
 import ImprovedNoise from './lib/improvedNoise'
+import removeCanvas from './lib/removeCanvas'
 
-if (Detector.webgl) {
-  init()
-  animate()
+export default function main () {
+  if (Detector.webgl) {
+    init()
+    animate()
+  }
 }
 
 let camera, scene, renderer
@@ -59,6 +62,7 @@ function init () {
   renderer.setPixelRatio(window.devicePixelRatio)
   renderer.setSize(window.innerWidth, window.innerHeight)
 
+  removeCanvas()
   document.body.appendChild(renderer.domElement)
 
   window.addEventListener('resize', onWindowResize, false)
