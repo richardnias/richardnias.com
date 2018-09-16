@@ -42,14 +42,8 @@ jobs:
       - restore_cache:
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Deploy index.html
-          command: aws s3 sync . s3://richardnias.com --region eu-west-2 --exclude "*" --include "index.html"
-      - run:
-          name: Deploy favicon
-          command: aws s3 sync . s3://richardnias.com --region eu-west-2 --exclude "*" --include "favicon.png"
-      - run:
-          name: Deploy build
-          command: aws s3 sync build s3://richardnias.com/build --region eu-west-2
+          name: Deploy
+          command: aws s3 sync public s3://richardnias.com --region eu-west-2
 
 workflows:
   version: 2

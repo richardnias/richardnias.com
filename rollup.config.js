@@ -7,7 +7,7 @@ import { uglify } from 'rollup-plugin-uglify'
 export default {
   input: 'src/index.js',
   output: {
-    file: 'build/main.min.js',
+    file: 'public/js/main.min.js',
     format: 'iife'
   },
   plugins: [
