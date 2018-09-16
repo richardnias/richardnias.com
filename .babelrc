@@ -3,8 +3,12 @@
     [
       "@babel/preset-env",
       {
-        "useBuiltIns": "entry"
+        "useBuiltIns": "entry",
+        "modules": false
       }
     ]
+  ],
+  "plugins": [
+    "@babel/syntax-dynamic-import"
   ]
 }
