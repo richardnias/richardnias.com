@@ -5,6 +5,7 @@ import notify from 'rollup-plugin-notify'
 import resolve from 'rollup-plugin-node-resolve'
 import standard from 'rollup-plugin-standard'
 import { uglify } from 'rollup-plugin-uglify'
+import visualizer from 'rollup-plugin-visualizer'
 
 export default {
   input: ['src/index.js', 'src/mountains.js', 'src/oblong.js'],
@@ -15,6 +16,7 @@ export default {
   },
   experimentalCodeSplitting: true,
   plugins: [
+    visualizer(),
     notify(),
     glsl({
       include: '**/*.glsl'
