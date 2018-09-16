@@ -4,14 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && npm run lint-fix && npm run rollup && npm run systemjs",
+    "build": "npm run lint-fix && npm run rollup",
     "clean": "rimraf -rf public/js/*",
-    "dev": "npm run clean && npm run systemjs && npm run rollup-watch",
+    "dev": "rollup -c -w",
     "lint": "standard",
     "lint-fix": "standard --fix",
     "rollup": "rollup -c",
-    "rollup-watch": "rollup -c -w",
-    "systemjs": "cp node_modules/systemjs/dist/system-production.js public/js/system-production.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -42,7 +40,9 @@
     "rimraf": "^2.6.2",
     "rollup": "^0.66.0",
     "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-clear": "^2.0.7",
     "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-copy": "^0.2.3",
     "rollup-plugin-glsl": "^1.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-notify": "^1.0.6",

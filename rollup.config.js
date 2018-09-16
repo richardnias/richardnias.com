@@ -1,5 +1,7 @@
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
+import clear from 'rollup-plugin-clear'
+import copy from 'rollup-plugin-copy'
 import glsl from 'rollup-plugin-glsl'
 import notify from 'rollup-plugin-notify'
 import resolve from 'rollup-plugin-node-resolve'
@@ -16,8 +18,16 @@ export default {
   },
   experimentalCodeSplitting: true,
   plugins: [
+    clear({
+      targets: ['public']
+    }),
     visualizer(),
     notify(),
+    copy({
+      'src/index.html': 'public/index.html',
+      'src/favicon.png': 'public/favicon.png',
+      'node_modules/systemjs/dist/system-production.js': 'public/js/system-production.js'
+    }),
     glsl({
       include: '**/*.glsl'
     }),
@@ -33,5 +43,8 @@ export default {
       exclude: 'node_modules/**'
     }),
     uglify()
-  ]
+  ],
+  watch: {
+    include: ['src/**/*']
+  }
 }
