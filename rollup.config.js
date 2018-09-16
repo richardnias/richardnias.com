@@ -1,5 +1,6 @@
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
+import notify from 'rollup-plugin-notify'
 import resolve from 'rollup-plugin-node-resolve'
 import standard from 'rollup-plugin-standard'
 import { uglify } from 'rollup-plugin-uglify'
@@ -13,6 +14,7 @@ export default {
   },
   experimentalCodeSplitting: true,
   plugins: [
+    notify(),
     resolve({
       module: true,
       jsnext: true
