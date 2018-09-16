@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Detector from './detector.js'
+import Detector from './lib/detector.js'
 import ImprovedNoise from './lib/improvedNoise'
 
 if (Detector.webgl) {
