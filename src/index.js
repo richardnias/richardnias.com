@@ -4,6 +4,12 @@ import page from 'page'
 
 let stop
 
+function setActiveLinks (context, next) {
+  document.querySelector('.navigation a.active').classList.remove('active')
+  document.querySelector(`.navigation a[href="${context.pathname}"]`).classList.add('active')
+  next()
+}
+
 function makeRoute (jsFile) {
   return async function () {
     const {default: main} = await import(jsFile)
@@ -19,6 +25,7 @@ const oblong = makeRoute('./oblong.js')
 const index = mountains
 const notFound = oblong
 
+page(setActiveLinks)
 page('/', index)
 page('/mountains', mountains)
 page('/oblong', notFound)

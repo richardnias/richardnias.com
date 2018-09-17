@@ -7,6 +7,7 @@
     <style>
         body {
             background: #d595a3;
+            margin: 0;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -16,14 +17,34 @@
             letter-spacing: 0.2rem;
         }
 
-        p {
+        p, li {
             font-family: 'Work Sans', sans-serif;
         }
 
+        .content {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            height: 100vh;
+        }
+
+        .quadrant {
+            display: flex;
+            flex: 1;
+            flex-basis: 50%;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+
         .title {
-            width: 40%;
-            margin-left: 30%;
-            margin-top: 30vh;
+            flex-basis: 40%;
+            height: 0;
+        }
+
+        .navigation {
+            flex-basis: 10%;
+            height: 0;
         }
 
         canvas {
@@ -33,14 +54,62 @@
             z-index: -1;
         }
 
+        ul {
+            list-style: none;
+            margin: 0 2rem 2rem;
+        }
+
+        ul li {
+            color: white;
+            display: inline;
+        }
+
+        ul li + li:before {
+            content: "/";
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        a:active {
+            color: inherit;
+        }
+
+        a:hover {
+            color: #eeeeee;
+        }
+
+        a.active {
+            text-decoration: line-through;
+        }
+
     </style>
 </head>
 <body>
-<div class="title">
-    <h1>Richard Nias</h1>
-    <h2>software engineer</h2>
+<div class="content">
+    <div class="quadrant">
+        <div class="title">
+            <h1>Richard Nias</h1>
+            <h2>software engineer</h2>
+        </div>
+    </div>
+    <div class="quadrant"></div>
+    <div class="quadrant"></div>
+    <div class="quadrant">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a class='active' href="/">home</a>
+                </li>
+                <li>
+                    <a href="/oblong">oblong</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
-
 <script src="./js/system-production.js"></script>
 <script>
   SystemJS.import('./js/index.js')
