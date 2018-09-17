@@ -13,8 +13,10 @@ async function oblong () {
 }
 
 const index = mountains
+const notFound = mountains
 
 page('/', index)
 page('/mountains', mountains)
 page('/oblong', oblong)
+page('*', notFound)
 page.start()
