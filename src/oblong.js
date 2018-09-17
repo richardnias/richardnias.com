@@ -6,11 +6,12 @@ import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera'
 import { Scene } from 'three/src/scenes/Scene'
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
 
+import bindWindowResize from './lib/bindWindowResize'
 import Detector from './lib/detector.js'
 import removeCanvas from './lib/removeCanvas'
 
 export default function main () {
-  let camera, scene, renderer, geometry, material, mesh, running
+  let camera, scene, renderer, geometry, material, mesh, running, removeResizeListener
 
   if (Detector.webgl) {
     init()
@@ -19,6 +20,9 @@ export default function main () {
 
   function stop () {
     running = false
+    if (typeof removeResizeListener === 'function') {
+      removeResizeListener()
+    }
   }
 
   function init () {
@@ -40,9 +44,8 @@ export default function main () {
     removeCanvas()
     document.body.appendChild(renderer.domElement)
 
-    window.addEventListener('resize', onWindowResize, false)
-
     running = true
+    removeResizeListener = bindWindowResize(camera, renderer)
   }
 
   function animate () {
@@ -55,12 +58,6 @@ export default function main () {
     mesh.rotation.z -= 0.02
 
     renderer.render(scene, camera)
-  }
-
-  function onWindowResize () {
-    camera.aspect = window.innerWidth / window.innerHeight
-    camera.updateProjectionMatrix()
-    renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
   return stop

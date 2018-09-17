@@ -10,13 +10,14 @@ import { Scene } from 'three/src/scenes/Scene'
 import { Vector3 } from 'three/src/math/Vector3'
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
 
+import bindWindowResize from './lib/bindWindowResize'
 import Detector from './lib/detector.js'
 import ImprovedNoise from './lib/improvedNoise'
 import removeCanvas from './lib/removeCanvas'
 
 export default function main () {
   let running, camera, scene, renderer, mesh, texture, data, worldWidth, worldDepth, planeWidth, planeDepth,
-    lookPosition, radius, hypotenuse, theta, height
+    lookPosition, radius, hypotenuse, theta, height, removeResizeListener
 
   if (Detector.webgl) {
     init()
@@ -25,6 +26,9 @@ export default function main () {
 
   function stop () {
     running = false
+    if (typeof removeResizeListener === 'function') {
+      removeResizeListener()
+    }
   }
 
   function init () {
@@ -67,16 +71,8 @@ export default function main () {
     removeCanvas()
     document.body.appendChild(renderer.domElement)
 
-    window.addEventListener('resize', onWindowResize, false)
-
     running = true
-  }
-
-  function onWindowResize () {
-    camera.aspect = window.innerWidth / window.innerHeight
-    camera.updateProjectionMatrix()
-
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    removeResizeListener = bindWindowResize(camera, renderer)
   }
 
   function generateHeight (width, height) {
@@ -194,7 +190,6 @@ export default function main () {
   }
 
   function render () {
-    console.log('mountain render')
     renderer.render(scene, camera)
   }
 
