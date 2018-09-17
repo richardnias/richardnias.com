@@ -4,27 +4,23 @@ import page from 'page'
 
 let stop
 
-async function mountains () {
-  const {default: main} = await import('./mountains.js')
-  if (typeof stop === 'function') {
-    stop()
+function makeRoute (jsFile) {
+  return async function () {
+    const {default: main} = await import(jsFile)
+    if (typeof stop === 'function') {
+      stop()
+    }
+    stop = main()
   }
-  stop = main()
 }
 
-async function oblong () {
-  const {default: main} = await import('./oblong.js')
-  if (typeof stop === 'function') {
-    stop()
-  }
-  stop = main()
-}
-
+const mountains = makeRoute('./mountains.js')
+const oblong = makeRoute('./oblong.js')
 const index = mountains
-const notFound = mountains
+const notFound = oblong
 
 page('/', index)
 page('/mountains', mountains)
-page('/oblong', oblong)
+page('/oblong', notFound)
 page('*', notFound)
 page.start()
