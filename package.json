@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm run lint-fix && npm run rollup",
     "clean": "rimraf -rf public/js/*",
-    "dev": "rollup -c -w",
+    "dev": "rollup -c -w --no-treeshake",
     "lint": "standard",
     "lint-fix": "standard --fix",
     "rollup": "rollup -c",
