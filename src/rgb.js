@@ -4,8 +4,9 @@ import Detector from './lib/detector.js'
 import removeCanvas from './lib/removeCanvas'
 
 export default async function main () {
-  const WIDTH = 640
-  const HEIGHT = 360
+  const VIDEO_WIDTH = 1280
+  const VIDEO_HEIGHT = 720
+  const VIDEO_RATIO = VIDEO_WIDTH / VIDEO_HEIGHT
   const DELAY = 5
 
   const buffer = new CircularBuffer(20)
@@ -19,6 +20,12 @@ export default async function main () {
 
   function stop () {
     running = false
+    if (video.srcObject) {
+      const tracks = video.srcObject.getTracks()
+      console.log(tracks)
+      tracks.forEach(s => s.stop())
+      video.srcObject = null
+    }
     if (typeof removeResizeListener === 'function') {
       removeResizeListener()
     }
@@ -29,33 +36,29 @@ export default async function main () {
     video.autoplay = true
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const constraints = {video: {width: WIDTH, height: HEIGHT, facingMode: 'user'}}
+      const constraints = {video: {width: VIDEO_WIDTH, height: VIDEO_HEIGHT, facingMode: 'user'}}
 
-      try {
-        video.srcObject = await navigator.mediaDevices.getUserMedia(constraints)
-        video.play()
-      } catch (e) {
-        console.error(e)
-      }
+      video.srcObject = await navigator.mediaDevices.getUserMedia(constraints)
+      video.play()
     } else {
-      console.error('MediaDevices interface not available.')
+      throw new Error('MediaDevices interface not available.')
     }
 
     canvas = document.createElement('canvas')
-    canvas.width = WIDTH
-    canvas.height = HEIGHT
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
     ctx = canvas.getContext('2d')
-    // inputCtx.translate(WIDTH, 0)
-    // inputCtx.scale(-1, 1)
+    // ctx.translate(window.innerWidth, 0)
+    // ctx.scale(-1, 1)
 
     removeCanvas()
     document.body.appendChild(canvas)
 
     running = true
     removeResizeListener = bindWindowResize(null, (w, h) => {
-      // inputCanvas.width = outputCanvas.width = w
-      // inputCanvas.height = outputCanvas.height = h
-      // inputCtx.translate(w, 0)
+      canvas.width = w
+      canvas.height = h
+      // ctx.translate(w, 0)
     })
   }
 
@@ -74,19 +77,33 @@ export default async function main () {
   }
 
   function animateCanvas () {
+    // calculate crop/offset
+    let dx, dy, width, height
+    if (canvas.width / canvas.height <= VIDEO_RATIO) {
+      width = canvas.height * VIDEO_RATIO
+      height = canvas.height
+      dx = (canvas.width - width) / 2
+      dy = 0
+    } else {
+      width = canvas.width
+      height = canvas.width / VIDEO_RATIO
+      dx = 0
+      dy = (canvas.height - height) / 2
+    }
+
     // draw video to canvas
-    ctx.drawImage(video, 0, 0, WIDTH, HEIGHT)
+    ctx.drawImage(video, 0, 0, VIDEO_WIDTH, VIDEO_HEIGHT, dx, dy, width, height)
 
     // get ImageData
-    const frame = ctx.getImageData(0, 0, WIDTH, HEIGHT)
+    const frame = ctx.getImageData(dx, dy, width, height)
 
     // save a copy
     buffer.push(copyUintArray(frame.data))
 
     // manipulate
-    for (let y = 0; y < HEIGHT; y++) {
-      for (let x = 0; x < WIDTH; x++) {
-        const idx = 4 * (x + y * WIDTH)
+    for (let y = 0; y < frame.height; y++) {
+      for (let x = 0; x < frame.width; x++) {
+        const idx = 4 * (x + y * frame.width)
 
         // rgb
         for (let c = 0; c < 3; c++) {
@@ -98,7 +115,7 @@ export default async function main () {
     }
 
     // put the new data back
-    ctx.putImageData(frame, 0, 0)
+    ctx.putImageData(frame, dx, dy)
   }
 
   return stop
