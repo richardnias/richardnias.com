@@ -16,7 +16,7 @@ function makeRoute (jsFile) {
     if (typeof stop === 'function') {
       stop()
     }
-    stop = main()
+    stop = await main()
   }
 }
 
