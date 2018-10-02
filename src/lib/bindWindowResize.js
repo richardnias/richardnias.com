@@ -1,9 +1,11 @@
-export default function bindWindowResize (camera, renderer) {
+export default function bindWindowResize (camera, setSize) {
   function onWindowResize () {
-    camera.aspect = window.innerWidth / window.innerHeight
-    camera.updateProjectionMatrix()
+    if (camera) {
+      camera.aspect = window.innerWidth / window.innerHeight
+      camera.updateProjectionMatrix()
+    }
 
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    setSize(window.innerWidth, window.innerHeight)
   }
 
   window.addEventListener('resize', onWindowResize, false)

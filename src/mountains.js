@@ -72,7 +72,7 @@ export default function main () {
     document.body.appendChild(renderer.domElement)
 
     running = true
-    removeResizeListener = bindWindowResize(camera, renderer)
+    removeResizeListener = bindWindowResize(camera, renderer.setSize)
   }
 
   function generateHeight (width, height) {
