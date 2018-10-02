@@ -10,7 +10,7 @@ import { uglify } from 'rollup-plugin-uglify'
 import visualizer from 'rollup-plugin-visualizer'
 
 export default {
-  input: ['src/index.js', 'src/mountains.js', 'src/oblong.js'],
+  input: ['src/index.js', 'src/mountains.js', 'src/oblong.js', 'src/rgb.js'],
   output: {
     dir: 'public/js',
     format: 'system',

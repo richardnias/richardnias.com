@@ -22,11 +22,13 @@ function makeRoute (jsFile) {
 
 const mountains = makeRoute('./mountains.js')
 const oblong = makeRoute('./oblong.js')
-const index = mountains
+const rgb = makeRoute('./rgb.js')
+const index = rgb
 const notFound = oblong
 
 page(setActiveLinks)
 page('/', index)
+page('/rgb', rgb)
 page('/mountains', mountains)
 page('/oblong', notFound)
 page('*', notFound)
