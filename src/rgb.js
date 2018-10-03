@@ -21,9 +21,7 @@ export default async function main () {
   function stop () {
     running = false
     if (video.srcObject) {
-      const tracks = video.srcObject.getTracks()
-      console.log(tracks)
-      tracks.forEach(s => s.stop())
+      video.srcObject.getTracks().forEach(s => s.stop())
       video.srcObject = null
     }
     if (typeof removeResizeListener === 'function') {
