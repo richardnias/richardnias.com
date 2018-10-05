@@ -46,8 +46,7 @@ export default async function main () {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
     ctx = canvas.getContext('2d')
-    // ctx.translate(window.innerWidth, 0)
-    // ctx.scale(-1, 1)
+    ctx.setTransform(-1, 0, 0, 1, window.innerWidth, 0)
 
     removeCanvas()
     document.body.appendChild(canvas)
@@ -56,7 +55,7 @@ export default async function main () {
     removeResizeListener = bindWindowResize(null, (w, h) => {
       canvas.width = w
       canvas.height = h
-      // ctx.translate(w, 0)
+      ctx.setTransform(-1, 0, 0, 1, window.innerWidth, 0)
     })
   }
 
