@@ -34,7 +34,7 @@ export default async function main () {
     video.autoplay = true
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const constraints = {video: {width: VIDEO_WIDTH, height: VIDEO_HEIGHT, facingMode: 'user'}}
+      const constraints = { video: { width: VIDEO_WIDTH, height: VIDEO_HEIGHT, facingMode: 'user' } }
 
       video.srcObject = await navigator.mediaDevices.getUserMedia(constraints)
       video.play()

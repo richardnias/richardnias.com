@@ -61,7 +61,7 @@ export default function main () {
     texture.wrapS = ClampToEdgeWrapping
     texture.wrapT = ClampToEdgeWrapping
 
-    mesh = new Mesh(geometry, new MeshBasicMaterial({map: texture}))
+    mesh = new Mesh(geometry, new MeshBasicMaterial({ map: texture }))
     scene.add(mesh)
 
     renderer = new WebGLRenderer()

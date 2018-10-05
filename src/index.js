@@ -12,7 +12,7 @@ function setActiveLinks (context, next) {
 
 function makeRoute (jsFile) {
   return async function () {
-    const {default: main} = await import(jsFile)
+    const { default: main } = await import(jsFile)
     if (typeof stop === 'function') {
       stop()
     }

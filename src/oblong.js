@@ -38,7 +38,7 @@ export default function main () {
     mesh = new Mesh(geometry, material)
     scene.add(mesh)
 
-    renderer = new WebGLRenderer({antialias: true})
+    renderer = new WebGLRenderer({ antialias: true })
     renderer.setSize(window.innerWidth, window.innerHeight)
 
     removeCanvas()
