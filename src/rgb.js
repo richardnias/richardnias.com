@@ -92,23 +92,22 @@ export default async function main () {
     ctx.drawImage(video, 0, 0, VIDEO_WIDTH, VIDEO_HEIGHT, dx, dy, width, height)
 
     // get ImageData
-    const frame = ctx.getImageData(dx, dy, width, height)
+    let frame = ctx.getImageData(dx, dy, width, height)
 
     // save a copy
-    buffer.push(copyUintArray(frame.data))
+    const currentFrame = copyUintArray(frame.data)
+    buffer.push(currentFrame)
+
+    const redFrame = currentFrame
+    const greenFrame = buffer.get(DELAY) || new Uint8ClampedArray(frame.data.length)
+    const blueFrame = buffer.get(DELAY * 2) || new Uint8ClampedArray(frame.data.length)
 
     // manipulate
-    for (let y = 0; y < frame.height; y++) {
-      for (let x = 0; x < frame.width; x++) {
-        const idx = 4 * (x + y * frame.width)
-
-        // rgb
-        for (let c = 0; c < 3; c++) {
-          let bufferFrame = buffer.get(c * DELAY)
-          frame.data[idx + c] = bufferFrame ? bufferFrame[idx + c] : 0
-        }
-        frame.data[idx + 4] = 255  // alpha
-      }
+    for (let i = 0; i < frame.data.length; i += 4) {
+      frame.data[i] = redFrame[i]
+      frame.data[i + 1] = greenFrame[i + 1]
+      frame.data[i + 2] = blueFrame[i + 2]
+      frame.data[i + 3] = 255
     }
 
     // put the new data back
