@@ -24,9 +24,9 @@ export default {
     visualizer(),
     notify(),
     copy({
-      'src/index.html': 'public/index.html',
       'src/favicon.png': 'public/favicon.png',
-      'node_modules/systemjs/dist/system-production.js': 'public/js/system-production.js'
+      'node_modules/systemjs/dist/system-production.js': 'public/js/system-production.js',
+      'src/index.html': 'public/index.html'
     }),
     glsl({
       include: '**/*.glsl'
