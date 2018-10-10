@@ -45,7 +45,7 @@ export default function main () {
     document.body.appendChild(renderer.domElement)
 
     running = true
-    removeResizeListener = bindWindowResize(camera, renderer.setSize)
+    removeResizeListener = bindWindowResize(camera, (w, h) => renderer.setSize(w, h))
   }
 
   function animate () {
