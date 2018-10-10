@@ -1,47 +1,44 @@
 import '@babel/polyfill'
 import page from 'page'
+import removeCanvas from './lib/removeCanvas'
 
 let stop
 
 function setActiveLinks (context, next) {
-  document.querySelector('.navigation a.active').classList.remove('active')
-  document.querySelector(`.navigation a[href="${context.pathname}"]`).classList.add('active')
+  const oldActive = document.querySelector('.navigation a.active')
+  const newActive = document.querySelector(`.navigation a[href="${context.pathname}"]`)
+  oldActive && oldActive.classList.remove('active')
+  newActive && newActive.classList.add('active')
   next()
 }
 
-function makeRoute (loader) {
-  return async function () {
-    try {
-      const { default: main } = await loader()
-      if (typeof stop === 'function') {
-        stop()
-      }
-      stop = await main()
-    } catch (e) {
-      console.error('Error loading next route.', e)
-    }
+function stopPreviousPage (context, next) {
+  if (typeof stop === 'function') {
+    stop()
   }
+  next()
 }
 
-const mountains = makeRoute(() => import(
-  /* webpackChunkName: "mountains" */
-  /* webpackPrefetch: true */
-  './mountains.js'))
-const oblong = makeRoute(() => import(
-  /* webpackChunkName: "oblong" */
-  /* webpackPrefetch: true */
-  './oblong.js'))
-const rgb = makeRoute(() => import(
-  /* webpackChunkName: "rgb" */
-  /* webpackPrefetch: true */
-  './rgb.js'))
-const index = rgb
-const notFound = oblong
-
+// middleware
 page(setActiveLinks)
-page('/', index)
-page('/rgb', rgb)
-page('/mountains', mountains)
-page('/oblong', notFound)
-page('*', notFound)
+page(stopPreviousPage)
+
+// routes
+page('/', removeCanvas)
+page('/:route', async function (context, next) {
+  const { route } = context.params
+  try {
+    const { default: main } = await import(
+      `./pages/${route}.js`
+      /* webpackPrefetch: true */
+      /* webpackChunkName: "[request]" */
+    )
+    stop = await main()
+  } catch (e) {
+    next()
+  }
+})
+// not found
+page('/*', removeCanvas)
+
 page.start()

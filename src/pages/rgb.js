@@ -1,6 +1,6 @@
-import bindWindowResize from './lib/bindWindowResize'
-import CircularBuffer from './lib/circularBuffer'
-import removeCanvas from './lib/removeCanvas'
+import bindWindowResize from '../lib/bindWindowResize'
+import CircularBuffer from '../lib/circularBuffer'
+import removeCanvas from '../lib/removeCanvas'
 
 export default async function main () {
   const VIDEO_WIDTH = 1280
