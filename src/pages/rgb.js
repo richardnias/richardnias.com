@@ -14,20 +14,23 @@ const VIDEO_RATIO = VIDEO_WIDTH / VIDEO_HEIGHT
 const DELAY = 5
 
 export default class RGBPage extends BasePage {
+  constructor () {
+    super()
+    this.errorMessage = 'MediaDevices interface not available.'
+  }
+
   async init () {
+    super.init()
+
     this.buffer = new CircularBuffer(20)
 
     this.video = document.createElement('video')
     this.video.autoplay = true
 
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const constraints = {video: {width: VIDEO_WIDTH, height: VIDEO_HEIGHT, facingMode: 'user'}}
+    const constraints = {video: {width: VIDEO_WIDTH, height: VIDEO_HEIGHT, facingMode: 'user'}}
 
-      this.video.srcObject = await navigator.mediaDevices.getUserMedia(constraints)
-      this.video.play()
-    } else {
-      throw new Error('MediaDevices interface not available.')
-    }
+    this.video.srcObject = await navigator.mediaDevices.getUserMedia(constraints)
+    this.video.play()
 
     this.canvas = document.createElement('canvas')
     this.canvas.width = window.innerWidth
@@ -39,6 +42,8 @@ export default class RGBPage extends BasePage {
   }
 
   animate () {
+    super.animate()
+
     // calculate crop/offset
     let dx, dy, width, height
     if (this.canvas.width / this.canvas.height <= VIDEO_RATIO) {
@@ -91,5 +96,9 @@ export default class RGBPage extends BasePage {
       this.video.srcObject.getTracks().forEach(s => s.stop())
       this.video.srcObject = null
     }
+  }
+
+  isSupported () {
+    return navigator.mediaDevices && navigator.mediaDevices.getUserMedia
   }
 }

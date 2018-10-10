@@ -19,25 +19,32 @@ function stopPreviousPage (context, next) {
   next()
 }
 
+async function routeHandler (context, next) {
+  const {route} = context.params
+  try {
+    const {default: Page} = await import(
+      `./pages/${route}.js`
+      /* webpackPrefetch: true */
+      /* webpackChunkName: "[request]" */
+      )
+    currentPage = new Page()
+    const canvas = await currentPage.init()
+    removeCanvas()
+    document.body.appendChild(canvas)
+    currentPage.animate()
+  } catch (e) {
+    console.error(e)
+    next()
+  }
+}
+
 // middleware
 page(setActiveLinks)
 page(stopPreviousPage)
 
 // routes
 page('/', removeCanvas)
-page('/:route', async function (context, next) {
-  const { route } = context.params
-  try {
-    const { default: Page } = await import(
-      `./pages/${route}.js`
-      /* webpackPrefetch: true */
-      /* webpackChunkName: "[request]" */
-    )
-    currentPage = await new Page()
-  } catch (e) {
-    next()
-  }
-})
+page('/:route', routeHandler)
 // not found
 page('/*', removeCanvas)
 

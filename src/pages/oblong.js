@@ -7,9 +7,17 @@ import { Scene } from 'three/src/scenes/Scene'
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
 
 import BasePage from '../lib/basePage'
+import Detector from '../lib/detector'
 
 export default class OblongPage extends BasePage {
+  constructor () {
+    super()
+    this.errorMessage = 'WebGL is not supported in this browser'
+  }
+
   init () {
+    super.init()
+
     this.camera = new PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10)
     this.camera.position.z = 1
 
@@ -28,6 +36,8 @@ export default class OblongPage extends BasePage {
   }
 
   animate () {
+    super.animate()
+
     this.mesh.rotation.x += 0.01
     this.mesh.rotation.y += 0.02
     this.mesh.rotation.z -= 0.02
@@ -40,5 +50,9 @@ export default class OblongPage extends BasePage {
     this.camera.updateProjectionMatrix()
 
     this.renderer.setSize(window.innerWidth, window.innerHeight)
+  }
+
+  isSupported() {
+    return Detector.webgl
   }
 }

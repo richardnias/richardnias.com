@@ -12,6 +12,7 @@ import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
 
 import ImprovedNoise from '../lib/improvedNoise'
 import BasePage from '../lib/basePage'
+import Detector from '../lib/detector'
 
 function generateHeight (width, height) {
   const size = width * height
@@ -101,7 +102,14 @@ const RADIUS = 1000
 const HYPOTENUSE = Math.sqrt(RADIUS * RADIUS * 2)
 
 export default class MountainPage extends BasePage {
+  constructor () {
+    super()
+    this.errorMessage = 'WebGL is not supported in this browser'
+  }
+
   init () {
+    super.init()
+
     this.theta = 0
 
     this.camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
@@ -140,6 +148,8 @@ export default class MountainPage extends BasePage {
   }
 
   animate () {
+    super.animate()
+
     const {height: oldHeight, theta: oldTheta, data, scene, camera, renderer} = this
 
     const theta = oldTheta + 0.0005
@@ -168,12 +178,12 @@ export default class MountainPage extends BasePage {
       Math.cos(-theta) * HYPOTENUSE
     )
 
-    this.camera.position.x = x
-    this.camera.position.y = y
-    this.camera.position.z = z
+    camera.position.x = x
+    camera.position.y = y
+    camera.position.z = z
 
-    this.camera.lookAt(lookVector)
-    this.renderer.render(this.scene, this.camera)
+    camera.lookAt(lookVector)
+    renderer.render(scene, camera)
 
     // state updates
     this.theta = theta
@@ -185,5 +195,9 @@ export default class MountainPage extends BasePage {
     this.camera.updateProjectionMatrix()
 
     this.renderer.setSize(window.innerWidth, window.innerHeight)
+  }
+
+  isSupported () {
+    return Detector.webgl
   }
 }
