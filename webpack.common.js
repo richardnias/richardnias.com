@@ -24,10 +24,10 @@ module.exports = {
       skipWaiting: true,
       offlineGoogleAnalytics: true,
       runtimeCaching: [{
-        urlPattern: new RegExp( '^https://fonts\.googleapis\.com'),
+        urlPattern: new RegExp(/^https:\/\/fonts\.googleapis\.com/),
         handler: 'staleWhileRevalidate'
-      },{
-        urlPattern: new RegExp('^https://fonts\.gstatic\.com'),
+      }, {
+        urlPattern: new RegExp(/^https:\/\/fonts\.gstatic\.com/),
         handler: 'cacheFirst'
       }]
     })
