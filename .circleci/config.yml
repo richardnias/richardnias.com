@@ -26,12 +26,16 @@ jobs:
           key: v1-deps-{{ checksum "package.json" }}
 
       - run:
+          name: Test
+          command: npm run test
+
+      - run:
           name: Build
           command: npm run build
 
       - save_cache:
           paths:
-            - .
+            - public
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
 
   deploy:
