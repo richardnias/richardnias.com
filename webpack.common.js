@@ -22,7 +22,17 @@ module.exports = {
       // and not allow any straggling "old" SWs to hang around
       clientsClaim: true,
       skipWaiting: true,
-      offlineGoogleAnalytics: true
+      offlineGoogleAnalytics: true,
+      runtimeCaching: [{
+        urlPattern: new RegExp('^https://fonts\.gstatic\.com'),
+        handler: 'staleWhileRevalidate'
+      },{
+        urlPattern: new RegExp('^https://www\.googletagmanager\.com/gtag'),
+        handler: 'staleWhileRevalidate'
+      },{
+        urlPattern: new RegExp('^https://www\.google-analytics\.com'),
+        handler: 'staleWhileRevalidate'
+      }]
     })
   ],
   output: {
