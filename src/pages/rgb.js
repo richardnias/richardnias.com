@@ -1,7 +1,6 @@
-import bindWindowResize from './lib/bindWindowResize'
-import CircularBuffer from './lib/circularBuffer'
-import Detector from './lib/detector.js'
-import removeCanvas from './lib/removeCanvas'
+import bindWindowResize from '../lib/bindWindowResize'
+import CircularBuffer from '../lib/circularBuffer'
+import removeCanvas from '../lib/removeCanvas'
 
 export default async function main () {
   const VIDEO_WIDTH = 1280
@@ -13,10 +12,8 @@ export default async function main () {
 
   let running, removeResizeListener, canvas, ctx, video
 
-  if (Detector.webgl) {
-    await init()
-    animate()
-  }
+  await init()
+  animate()
 
   function stop () {
     running = false

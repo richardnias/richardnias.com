@@ -26,12 +26,16 @@ jobs:
           key: v1-deps-{{ checksum "package.json" }}
 
       - run:
+          name: Test
+          command: npm run test
+
+      - run:
           name: Build
           command: npm run build
 
       - save_cache:
           paths:
-            - .
+            - public
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
 
   deploy:
@@ -42,8 +46,11 @@ jobs:
       - restore_cache:
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Deploy
-          command: aws s3 sync public s3://richardnias.com --region eu-west-2
+          name: Deploy JS
+          command: aws s3 sync public/js s3://richardnias.com/js --region eu-west-2 --cache-control "max-age=2628000, immutable"
+      - run:
+          name: Deploy HTML
+          command: aws s3 sync public s3://richardnias.com --region eu-west-2 --exclude "js"
 
 workflows:
   version: 2

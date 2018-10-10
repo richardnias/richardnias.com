@@ -6,9 +6,9 @@ import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera'
 import { Scene } from 'three/src/scenes/Scene'
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
 
-import bindWindowResize from './lib/bindWindowResize'
-import Detector from './lib/detector.js'
-import removeCanvas from './lib/removeCanvas'
+import bindWindowResize from '../lib/bindWindowResize'
+import Detector from '../lib/detector.js'
+import removeCanvas from '../lib/removeCanvas'
 
 export default function main () {
   let camera, scene, renderer, geometry, material, mesh, running, removeResizeListener

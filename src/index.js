@@ -1,35 +1,44 @@
-// async polyfill
-import 'regenerator-runtime/runtime'
+import '@babel/polyfill'
 import page from 'page'
+import removeCanvas from './lib/removeCanvas'
 
 let stop
 
 function setActiveLinks (context, next) {
-  document.querySelector('.navigation a.active').classList.remove('active')
-  document.querySelector(`.navigation a[href="${context.pathname}"]`).classList.add('active')
+  const oldActive = document.querySelector('.navigation a.active')
+  const newActive = document.querySelector(`.navigation a[href="${context.pathname}"]`)
+  oldActive && oldActive.classList.remove('active')
+  newActive && newActive.classList.add('active')
   next()
 }
 
-function makeRoute (jsFile) {
-  return async function () {
-    const { default: main } = await import(jsFile)
-    if (typeof stop === 'function') {
-      stop()
-    }
-    stop = await main()
+function stopPreviousPage (context, next) {
+  if (typeof stop === 'function') {
+    stop()
   }
+  next()
 }
 
-const mountains = makeRoute('./mountains.js')
-const oblong = makeRoute('./oblong.js')
-const rgb = makeRoute('./rgb.js')
-const index = rgb
-const notFound = oblong
-
+// middleware
 page(setActiveLinks)
-page('/', index)
-page('/rgb', rgb)
-page('/mountains', mountains)
-page('/oblong', notFound)
-page('*', notFound)
+page(stopPreviousPage)
+
+// routes
+page('/', removeCanvas)
+page('/:route', async function (context, next) {
+  const { route } = context.params
+  try {
+    const { default: main } = await import(
+      `./pages/${route}.js`
+      /* webpackPrefetch: true */
+      /* webpackChunkName: "[request]" */
+    )
+    stop = await main()
+  } catch (e) {
+    next()
+  }
+})
+// not found
+page('/*', removeCanvas)
+
 page.start()

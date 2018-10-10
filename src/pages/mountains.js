@@ -10,10 +10,10 @@ import { Scene } from 'three/src/scenes/Scene'
 import { Vector3 } from 'three/src/math/Vector3'
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
 
-import bindWindowResize from './lib/bindWindowResize'
-import Detector from './lib/detector.js'
-import ImprovedNoise from './lib/improvedNoise'
-import removeCanvas from './lib/removeCanvas'
+import bindWindowResize from '../lib/bindWindowResize'
+import Detector from '../lib/detector.js'
+import ImprovedNoise from '../lib/improvedNoise'
+import removeCanvas from '../lib/removeCanvas'
 
 export default function main () {
   let running, camera, scene, renderer, mesh, texture, data, worldWidth, worldDepth, planeWidth, planeDepth,
