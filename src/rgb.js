@@ -1,6 +1,5 @@
 import bindWindowResize from './lib/bindWindowResize'
 import CircularBuffer from './lib/circularBuffer'
-import Detector from './lib/detector.js'
 import removeCanvas from './lib/removeCanvas'
 
 export default async function main () {
@@ -13,10 +12,8 @@ export default async function main () {
 
   let running, removeResizeListener, canvas, ctx, video
 
-  if (Detector.webgl) {
-    await init()
-    animate()
-  }
+  await init()
+  animate()
 
   function stop () {
     running = false
@@ -34,7 +31,7 @@ export default async function main () {
     video.autoplay = true
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const constraints = { video: { width: VIDEO_WIDTH, height: VIDEO_HEIGHT, facingMode: 'user' } }
+      const constraints = {video: {width: VIDEO_WIDTH, height: VIDEO_HEIGHT, facingMode: 'user'}}
 
       video.srcObject = await navigator.mediaDevices.getUserMedia(constraints)
       video.play()

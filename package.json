@@ -2,15 +2,11 @@
   "name": "richardnias.com",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
+  "sideEffects": false,
   "scripts": {
-    "build": "npm run lint-fix && npm run rollup",
-    "clean": "rimraf -rf public/js/*",
-    "dev": "rollup -c -w --no-treeshake",
-    "lint": "standard",
-    "lint-fix": "standard --fix",
-    "rollup": "rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --open --config webpack.dev.js"
   },
   "repository": {
     "type": "git",
@@ -26,31 +22,26 @@
   },
   "homepage": "https://github.com/richardnias/richardnias.com#readme",
   "dependencies": {
-    "babel-eslint": "^9.0.0",
     "page": "^1.10.1",
     "regenerator-runtime": "^0.12.1",
-    "systemjs": "^0.21.4",
     "three": "^0.96.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "babel-eslint": "^9.0.0",
+    "babel-loader": "^8.0.4",
     "babel-polyfill": "^6.26.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "html-webpack-plugin": "^3.2.0",
     "rimraf": "^2.6.2",
-    "rollup": "^0.66.0",
-    "rollup-plugin-babel": "^4.0.3",
-    "rollup-plugin-clear": "^2.0.7",
-    "rollup-plugin-commonjs": "^9.1.6",
-    "rollup-plugin-copy": "^0.2.3",
-    "rollup-plugin-glsl": "^1.2.0",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-notify": "^1.0.6",
-    "rollup-plugin-standard": "^1.0.0",
-    "rollup-plugin-uglify": "^5.0.2",
-    "rollup-plugin-visualizer": "^0.9.0",
-    "rollup-watch": "^4.3.1",
-    "standard": "^12.0.1"
+    "standard": "^12.0.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9",
+    "webpack-glsl-loader": "^1.0.1",
+    "webpack-merge": "^4.1.4"
   },
   "standard": {
     "parser": "babel-eslint"

@@ -10,19 +10,32 @@ function setActiveLinks (context, next) {
   next()
 }
 
-function makeRoute (jsFile) {
+function makeRoute (loader) {
   return async function () {
-    const { default: main } = await import(jsFile)
-    if (typeof stop === 'function') {
-      stop()
+    try {
+      const {default: main} = await loader()
+      if (typeof stop === 'function') {
+        stop()
+      }
+      stop = await main()
+    } catch (e) {
+      console.error('Error loading next route.', e)
     }
-    stop = await main()
   }
 }
 
-const mountains = makeRoute('./mountains.js')
-const oblong = makeRoute('./oblong.js')
-const rgb = makeRoute('./rgb.js')
+const mountains = makeRoute(() => import(
+  /* webpackChunkName: "mountains" */
+  /* webpackPrefetch: true */
+  './mountains.js'))
+const oblong = makeRoute(() => import(
+  /* webpackChunkName: "oblong" */
+  /* webpackPrefetch: true */
+  './oblong.js'))
+const rgb = makeRoute(() => import(
+  /* webpackChunkName: "rgb" */
+  /* webpackPrefetch: true */
+  './rgb.js'))
 const index = rgb
 const notFound = oblong
 
