@@ -50,7 +50,7 @@ jobs:
           command: aws s3 sync public/js s3://richardnias.com/js --region eu-west-2 --cache-control "max-age=2628000, immutable"
       - run:
           name: Deploy HTML
-          command: aws s3 sync public s3://richardnias.com --region eu-west-2 --exclude "js"
+          command: aws s3 sync public s3://richardnias.com --region eu-west-2 --exclude "js" --cache-control "max-age=3600"
 
 workflows:
   version: 2
