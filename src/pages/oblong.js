@@ -6,59 +6,39 @@ import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera'
 import { Scene } from 'three/src/scenes/Scene'
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
 
-import bindWindowResize from '../lib/bindWindowResize'
-import Detector from '../lib/detector.js'
-import removeCanvas from '../lib/removeCanvas'
+import BasePage from '../lib/basePage'
 
-export default function main () {
-  let camera, scene, renderer, geometry, material, mesh, running, removeResizeListener
+export default class OblongPage extends BasePage {
+  init () {
+    this.camera = new PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10)
+    this.camera.position.z = 1
 
-  if (Detector.webgl) {
-    init()
-    animate()
+    this.scene = new Scene()
+    this.scene.background = new Color(0xd595a3)
+
+    const geometry = new BoxGeometry(0.4, 0.2, 0.2)
+    const material = new MeshNormalMaterial()
+
+    this.mesh = new Mesh(geometry, material)
+    this.scene.add(this.mesh)
+
+    this.renderer = new WebGLRenderer({antialias: true})
+    this.renderer.setSize(window.innerWidth, window.innerHeight)
+    return this.renderer.domElement
   }
 
-  function stop () {
-    running = false
-    if (typeof removeResizeListener === 'function') {
-      removeResizeListener()
-    }
+  animate () {
+    this.mesh.rotation.x += 0.01
+    this.mesh.rotation.y += 0.02
+    this.mesh.rotation.z -= 0.02
+
+    this.renderer.render(this.scene, this.camera)
   }
 
-  function init () {
-    camera = new PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10)
-    camera.position.z = 1
+  onResize () {
+    this.camera.aspect = window.innerWidth / window.innerHeight
+    this.camera.updateProjectionMatrix()
 
-    scene = new Scene()
-    scene.background = new Color(0xd595a3)
-
-    geometry = new BoxGeometry(0.4, 0.2, 0.2)
-    material = new MeshNormalMaterial()
-
-    mesh = new Mesh(geometry, material)
-    scene.add(mesh)
-
-    renderer = new WebGLRenderer({ antialias: true })
-    renderer.setSize(window.innerWidth, window.innerHeight)
-
-    removeCanvas()
-    document.body.appendChild(renderer.domElement)
-
-    running = true
-    removeResizeListener = bindWindowResize(camera, (w, h) => renderer.setSize(w, h))
+    this.renderer.setSize(window.innerWidth, window.innerHeight)
   }
-
-  function animate () {
-    if (running) {
-      window.requestAnimationFrame(animate)
-    }
-
-    mesh.rotation.x += 0.01
-    mesh.rotation.y += 0.02
-    mesh.rotation.z -= 0.02
-
-    renderer.render(scene, camera)
-  }
-
-  return stop
 }

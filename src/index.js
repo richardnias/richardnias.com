@@ -2,7 +2,7 @@ import '@babel/polyfill'
 import page from 'page'
 import removeCanvas from './lib/removeCanvas'
 
-let stop
+let currentPage
 
 function setActiveLinks (context, next) {
   const oldActive = document.querySelector('.navigation a.active')
@@ -13,8 +13,8 @@ function setActiveLinks (context, next) {
 }
 
 function stopPreviousPage (context, next) {
-  if (typeof stop === 'function') {
-    stop()
+  if (currentPage && currentPage.stop && typeof currentPage.stop === 'function') {
+    currentPage.stop()
   }
   next()
 }
@@ -28,12 +28,12 @@ page('/', removeCanvas)
 page('/:route', async function (context, next) {
   const { route } = context.params
   try {
-    const { default: main } = await import(
+    const { default: Page } = await import(
       `./pages/${route}.js`
       /* webpackPrefetch: true */
       /* webpackChunkName: "[request]" */
     )
-    stop = await main()
+    currentPage = await new Page()
   } catch (e) {
     next()
   }
