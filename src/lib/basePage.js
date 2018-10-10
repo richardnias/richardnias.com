@@ -1,4 +1,4 @@
-import {bindWindowResize} from './util'
+import { bindWindowResize } from './util'
 
 export default class BasePage {
   constructor () {
