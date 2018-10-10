@@ -1,5 +1,4 @@
-// async polyfill
-import 'regenerator-runtime/runtime'
+import '@babel/polyfill'
 import page from 'page'
 
 let stop
