@@ -1,6 +1,6 @@
 import '@babel/polyfill'
 import page from 'page'
-import removeCanvas from './lib/removeCanvas'
+import {removeCanvas} from './lib/util'
 
 let currentPage
 
