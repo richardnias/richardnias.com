@@ -20,13 +20,13 @@ function stopPreviousPage (context, next) {
 }
 
 async function routeHandler (context, next) {
-  const {route} = context.params
+  const { route } = context.params
   try {
-    const {default: Page} = await import(
+    const { default: Page } = await import(
       `./pages/${route}.js`
       /* webpackPrefetch: true */
       /* webpackChunkName: "[request]" */
-      )
+    )
     currentPage = new Page()
     const canvas = await currentPage.init()
     removeCanvas()

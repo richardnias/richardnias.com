@@ -29,7 +29,7 @@ export default class MountainPage extends BasePage {
   init () {
     super.init()
 
-    const {data, texture} = generateTerrain(WORLD_WIDTH, WORLD_DEPTH)
+    const { data, texture } = generateTerrain(WORLD_WIDTH, WORLD_DEPTH)
     const geometry = new PlaneBufferGeometry(
       PLANE_WIDTH,
       PLANE_DEPTH,
@@ -43,7 +43,7 @@ export default class MountainPage extends BasePage {
       vertices[j + 1] = data[i] * 10
     }
 
-    const mesh = new Mesh(geometry, new MeshBasicMaterial({map: texture}))
+    const mesh = new Mesh(geometry, new MeshBasicMaterial({ map: texture }))
 
     this.theta = 0
     this.height = data[WORLD_WIDTH / 2 + WORLD_DEPTH / 2 * WORLD_WIDTH] * 10 + 500
@@ -65,7 +65,7 @@ export default class MountainPage extends BasePage {
   animate () {
     super.animate()
 
-    const {height: oldHeight, theta: oldTheta, data, scene, camera, renderer} = this
+    const { height: oldHeight, theta: oldTheta, data, scene, camera, renderer } = this
 
     const theta = oldTheta + 0.0005
     let y

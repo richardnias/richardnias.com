@@ -30,7 +30,7 @@ export default class OblongPage extends BasePage {
     this.mesh = new Mesh(geometry, material)
     this.scene.add(this.mesh)
 
-    this.renderer = new WebGLRenderer({antialias: true})
+    this.renderer = new WebGLRenderer({ antialias: true })
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     return this.renderer.domElement
   }
@@ -52,7 +52,7 @@ export default class OblongPage extends BasePage {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
-  isSupported() {
+  isSupported () {
     return Detector.webgl
   }
 }

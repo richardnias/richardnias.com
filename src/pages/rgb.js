@@ -22,7 +22,7 @@ export default class RGBPage extends BasePage {
     this.video = document.createElement('video')
     this.video.autoplay = true
 
-    const constraints = {video: {width: VIDEO_WIDTH, height: VIDEO_HEIGHT, facingMode: 'user'}}
+    const constraints = { video: { width: VIDEO_WIDTH, height: VIDEO_HEIGHT, facingMode: 'user' } }
 
     this.video.srcObject = await navigator.mediaDevices.getUserMedia(constraints)
     this.video.play()
