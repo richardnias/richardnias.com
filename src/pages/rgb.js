@@ -1,12 +1,7 @@
 import CircularBuffer from '../lib/circularBuffer'
 
 import BasePage from '../lib/basePage'
-
-function copyUintArray (src) {
-  const dest = new Uint8ClampedArray(src.length)
-  dest.set(src)
-  return dest
-}
+import { copyUintArray } from '../lib/util'
 
 const VIDEO_WIDTH = 1280
 const VIDEO_HEIGHT = 720
