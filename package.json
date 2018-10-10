@@ -5,6 +5,8 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
+    "lint": "standard",
+    "lint-fix": "standard --fix",
     "build": "webpack --config webpack.prod.js",
     "start": "webpack-dev-server --open --config webpack.dev.js"
   },

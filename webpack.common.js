@@ -1,5 +1,5 @@
 const path = require('path')
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
@@ -9,12 +9,12 @@ module.exports = {
     new CleanWebpackPlugin(['public']),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      favicon: 'src/favicon.png',
+      favicon: 'src/favicon.png'
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       reportFilename: '../stats.html',
-      openAnalyzer: false,
+      openAnalyzer: false
     })
   ],
   output: {

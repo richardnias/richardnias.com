@@ -13,7 +13,7 @@ function setActiveLinks (context, next) {
 function makeRoute (loader) {
   return async function () {
     try {
-      const {default: main} = await loader()
+      const { default: main } = await loader()
       if (typeof stop === 'function') {
         stop()
       }
