@@ -12,11 +12,13 @@
       gtag('config', 'UA-118291236-1')
     </script>
     <title>Richard Nias</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Arbutus+Slab|Work+Sans" rel="stylesheet">
     <style>
         body {
             background: #d595a3;
             margin: 0;
+            overflow: hidden;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -31,10 +33,15 @@
         }
 
         .content {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            overflow: auto;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             height: 100vh;
+            width: 100%;
         }
 
         .quadrant {
@@ -43,29 +50,20 @@
             flex-basis: 50%;
             flex-direction: column;
             align-items: flex-end;
-            justify-content: flex-end;
+        }
+
+        .spacer {
+            flex: 1
         }
 
         .title {
-            flex-basis: 40%;
-            height: 0;
-        }
-
-        .navigation {
-            flex-basis: 10%;
-            height: 0;
-        }
-
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
+            padding-left: 1rem;
         }
 
         ul {
             list-style: none;
-            margin: 0 2rem 2rem;
+            margin: 0 2rem 2rem 0;
+            padding-left: 0;
         }
 
         ul li {
@@ -74,7 +72,8 @@
         }
 
         ul li + li:before {
-            content: "/";
+            content: "/\a";
+            white-space: pre;
         }
 
         a {
@@ -94,19 +93,27 @@
             text-decoration: line-through;
         }
 
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
 <div class="content">
     <div class="quadrant">
+        <div class="spacer"></div>
         <div class="title">
-            <h1>Richard Nias</h1>
-            <h2>software engineer</h2>
+            <h2>Richard Nias</h2>
+            <h3>software engineer</h3>
         </div>
     </div>
     <div class="quadrant"></div>
     <div class="quadrant"></div>
     <div class="quadrant">
+        <div class="spacer"></div>
         <div class="navigation">
             <ul>
                 <li>
