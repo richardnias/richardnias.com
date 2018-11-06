@@ -3,9 +3,8 @@ import CircularBuffer from '../lib/circularBuffer'
 import BasePage from '../lib/basePage'
 import { copyUintArray } from '../lib/util'
 
-const VIDEO_WIDTH = 1280
-const VIDEO_HEIGHT = 720
-const VIDEO_RATIO = VIDEO_WIDTH / VIDEO_HEIGHT
+const REQUESTED_VIDEO_WIDTH = 1280
+const REQUESTED_VIDEO_HEIGHT = 720
 const DELAY = 5
 
 export default class RGBPage extends BasePage {
@@ -22,10 +21,14 @@ export default class RGBPage extends BasePage {
     this.video = document.createElement('video')
     this.video.autoplay = true
 
-    const constraints = { video: { width: VIDEO_WIDTH, height: VIDEO_HEIGHT, facingMode: 'user' } }
+    const constraints = { video: { width: REQUESTED_VIDEO_WIDTH, height: REQUESTED_VIDEO_HEIGHT, facingMode: 'user' } }
 
     this.video.srcObject = await navigator.mediaDevices.getUserMedia(constraints)
-    this.video.play()
+    await this.video.play()
+
+    this.videoWidth = this.video.videoWidth
+    this.videoHeight = this.video.videoHeight
+    this.videoRatio = this.videoWidth / this.videoHeight
 
     this.canvas = document.createElement('canvas')
     this.canvas.width = window.innerWidth
@@ -41,20 +44,20 @@ export default class RGBPage extends BasePage {
 
     // calculate crop/offset
     let dx, dy, width, height
-    if (this.canvas.width / this.canvas.height <= VIDEO_RATIO) {
-      width = this.canvas.height * VIDEO_RATIO
+    if (this.canvas.width / this.canvas.height <= this.videoRatio) {
+      width = this.canvas.height * this.videoRatio
       height = this.canvas.height
       dx = (this.canvas.width - width) / 2
       dy = 0
     } else {
       width = this.canvas.width
-      height = this.canvas.width / VIDEO_RATIO
+      height = this.canvas.width / this.videoRatio
       dx = 0
       dy = (this.canvas.height - height) / 2
     }
 
     // draw video to canvas
-    this.ctx.drawImage(this.video, 0, 0, VIDEO_WIDTH, VIDEO_HEIGHT, dx, dy, width, height)
+    this.ctx.drawImage(this.video, 0, 0, this.videoWidth, this.videoHeight, dx, dy, width, height)
 
     // get ImageData
     let frame = this.ctx.getImageData(dx, dy, width, height)
