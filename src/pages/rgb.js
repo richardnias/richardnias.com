@@ -5,7 +5,7 @@ import { copyUintArray } from '../lib/util'
 
 const REQUESTED_VIDEO_WIDTH = 1280
 const REQUESTED_VIDEO_HEIGHT = 720
-const DELAY = 5
+const DELAY = 10
 
 export default class RGBPage extends BasePage {
   constructor () {
@@ -16,7 +16,7 @@ export default class RGBPage extends BasePage {
   async init () {
     super.init()
 
-    this.buffer = new CircularBuffer(20)
+    this.buffer = new CircularBuffer(DELAY * 2 + 1)
 
     this.video = document.createElement('video')
     this.video.setAttribute('muted', '')
