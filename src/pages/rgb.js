@@ -19,7 +19,9 @@ export default class RGBPage extends BasePage {
     this.buffer = new CircularBuffer(20)
 
     this.video = document.createElement('video')
-    this.video.autoplay = true
+    this.video.setAttribute('muted', '')
+    this.video.setAttribute('playsinline', '')
+    this.video.setAttribute('autoplay', '')
 
     const constraints = { video: { width: REQUESTED_VIDEO_WIDTH, height: REQUESTED_VIDEO_HEIGHT, facingMode: 'user' } }
 
