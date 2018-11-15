@@ -1,4 +1,5 @@
 import { bindWindowResize } from './util'
+import Stats from 'stats.js'
 
 export default class BasePage {
   constructor () {
@@ -6,6 +7,8 @@ export default class BasePage {
     this._removeResizeListener = () => null
 
     this.errorMessage = 'Generic error'
+
+    this.stats = new Stats()
 
     this.init = this.init.bind(this)
     this.animate = this.animate.bind(this)
