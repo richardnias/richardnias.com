@@ -33,7 +33,9 @@ async function routeHandler (context, next) {
     currentPage = new Page()
     const canvas = await currentPage.init()
     removeCanvas()
-    document.body.appendChild(canvas)
+    if (canvas) {
+      document.body.appendChild(canvas)
+    }
     currentPage.animate()
   } catch (e) {
     console.error(e)
