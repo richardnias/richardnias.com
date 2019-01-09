@@ -40,7 +40,7 @@ export default class WebcamPage extends BasePage {
   /**
    * calculate params to pass into drawImage to ensure the video is the right size/position
    */
-  calculateDrawImageParams() {
+  calculateDrawImageParams () {
     // calculate crop/offset
     let dx, dy, width, height
     if (this.canvas.width / this.canvas.height <= this.videoRatio) {

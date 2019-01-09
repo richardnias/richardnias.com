@@ -3,11 +3,9 @@ import { mat3 } from 'gl-matrix'
 
 import WebcamPage from '../lib/webcam'
 
-
 const RESOLUTION = 100
 const FUZZ = 10
 const HALF_FUZZ = FUZZ / 2
-
 
 const fuzz = x => x - HALF_FUZZ + Math.round(Math.random() * FUZZ)
 const fuzzMap = arr => arr.map(fuzz)
@@ -28,7 +26,7 @@ export default class WavyPage extends WebcamPage {
       [0, 0],
       [window.innerWidth, 0],
       [window.innerWidth, window.innerHeight],
-      [0, window.innerHeight],
+      [0, window.innerHeight]
     ]
 
     this.calculateSourcePoints()
@@ -36,7 +34,7 @@ export default class WavyPage extends WebcamPage {
     return super.init()
   }
 
-  calculateSourcePoints() {
+  calculateSourcePoints () {
     this.innerSourcePoints = []
     for (let x = RESOLUTION; x < window.innerWidth; x += RESOLUTION) {
       for (let y = RESOLUTION; y < window.innerHeight; y += RESOLUTION) {
@@ -110,7 +108,7 @@ export default class WavyPage extends WebcamPage {
         this.transformMatrix[3],
         this.transformMatrix[4],
         this.transformMatrix[6],
-        this.transformMatrix[7],
+        this.transformMatrix[7]
       )
 
       this.ctx.beginPath()
