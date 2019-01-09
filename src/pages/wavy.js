@@ -56,7 +56,6 @@ export default class WavyPage extends WebcamPage {
 
   animate () {
     super.animate()
-    this.stats.begin()
 
     const source = this.sourceDelaunay
 
@@ -124,7 +123,6 @@ export default class WavyPage extends WebcamPage {
       this.ctx.drawImage(this.video, 0, 0, this.videoWidth, this.videoHeight, dx, dy, width, height)
       this.ctx.restore()
     }
-    this.stats.end()
   }
 
   onResize () {
