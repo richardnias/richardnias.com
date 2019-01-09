@@ -1,73 +1,57 @@
 import Delaunator from 'delaunator'
 import { mat3 } from 'gl-matrix'
 
-import BasePage from '../lib/basePage'
+import WebcamPage from '../lib/webcam'
 
-const WIDTH = 750
-const HEIGHT = 550
 
-const CORNERS = [
-  [0, 0],
-  [WIDTH, 0],
-  [WIDTH, HEIGHT],
-  [0, HEIGHT],
-]
+const RESOLUTION = 100
+const FUZZ = 10
+const HALF_FUZZ = FUZZ / 2
 
-const fuzz = x => x - 5 + Math.round(Math.random() * 10)
+
+const fuzz = x => x - HALF_FUZZ + Math.round(Math.random() * FUZZ)
 const fuzzMap = arr => arr.map(fuzz)
 
-function getTargetPoints (source) {
-  return CORNERS.concat(
-    source.map(fuzzMap)
-  )
-}
-
-function loadImage (src) {
-  return new Promise(function (resolve, reject) {
-    const img = new Image()
-    img.addEventListener('load', function () {
-      resolve(img)
-    })
-    img.addEventListener('error', reject)
-    img.src = src
-  })
-}
-
-export default class WavyPage extends BasePage {
-  constructor () {
-    super()
-    this.errorMessage = 'MediaDevices interface not available.'
+export default class WavyPage extends WebcamPage {
+  constructor (props) {
+    super(props)
+    this.getTargetPoints = this.getTargetPoints.bind(this)
   }
 
   async init () {
-    super.init()
-
-    let _source = []
-    for (let x = 50; x < WIDTH; x += 50) {
-      for (let y = 50; y < HEIGHT; y += 50) {
-        _source = _source.concat([[x, y]])
-      }
-    }
-
-    this._source = _source
-
-    this.sourcePoints = CORNERS.concat(_source)
-
-    this.canvas = document.createElement('canvas')
-    this.canvas.width = WIDTH
-    this.canvas.height = HEIGHT
-    this.ctx = this.canvas.getContext('2d')
-
-    this.sourceDelaunay = Delaunator.from(this.sourcePoints)
-
     this.sourceMatrix = mat3.create()
     this.targetMatrix = mat3.create()
     this.invSourceMatrix = mat3.create()
     this.transformMatrix = mat3.create()
 
-    this.img = await loadImage('https://www.out.com/sites/out.com/files/2018/05/18/anotni.jpg')
+    this.corners = [
+      [0, 0],
+      [window.innerWidth, 0],
+      [window.innerWidth, window.innerHeight],
+      [0, window.innerHeight],
+    ]
 
-    return this.canvas
+    this.calculateSourcePoints()
+
+    return super.init()
+  }
+
+  calculateSourcePoints() {
+    this.innerSourcePoints = []
+    for (let x = RESOLUTION; x < window.innerWidth; x += RESOLUTION) {
+      for (let y = RESOLUTION; y < window.innerHeight; y += RESOLUTION) {
+        this.innerSourcePoints.push([x, y])
+      }
+    }
+
+    this.sourcePoints = this.corners.concat(this.innerSourcePoints)
+    this.sourceDelaunay = Delaunator.from(this.sourcePoints)
+  }
+
+  getTargetPoints () {
+    return this.corners.concat(
+      this.innerSourcePoints.map(fuzzMap)
+    )
   }
 
   animate () {
@@ -76,16 +60,22 @@ export default class WavyPage extends BasePage {
 
     const source = this.sourceDelaunay
 
-    const targetPoints = getTargetPoints(this._source)
+    const targetPoints = this.getTargetPoints()
+
+    const [dx, dy, width, height] = this.calculateDrawImageParams()
 
     for (let i = 0; i < source.triangles.length; i += 3) {
-      const [s0x, s0y] = this.sourcePoints[source.triangles[i]]
-      const [s1x, s1y] = this.sourcePoints[source.triangles[i + 1]]
-      const [s2x, s2y] = this.sourcePoints[source.triangles[i + 2]]
+      const i0 = source.triangles[i]
+      const i1 = source.triangles[i + 1]
+      const i2 = source.triangles[i + 2]
 
-      const [t0x, t0y] = targetPoints[source.triangles[i]]
-      const [t1x, t1y] = targetPoints[source.triangles[i + 1]]
-      const [t2x, t2y] = targetPoints[source.triangles[i + 2]]
+      const [s0x, s0y] = this.sourcePoints[i0]
+      const [s1x, s1y] = this.sourcePoints[i1]
+      const [s2x, s2y] = this.sourcePoints[i2]
+
+      const [t0x, t0y] = targetPoints[i0]
+      const [t1x, t1y] = targetPoints[i1]
+      const [t2x, t2y] = targetPoints[i2]
 
       mat3.set(this.sourceMatrix,
         s0x,
@@ -124,25 +114,21 @@ export default class WavyPage extends BasePage {
         this.transformMatrix[7],
       )
 
-      // this.ctx.strokeStyle = 'cyan'
       this.ctx.beginPath()
       this.ctx.moveTo(s0x, s0y)
       this.ctx.lineTo(s1x, s1y)
       this.ctx.lineTo(s2x, s2y)
       this.ctx.closePath()
-      // this.ctx.stroke()
 
       this.ctx.clip()
-      this.ctx.drawImage(this.img, 0, 0)
+      this.ctx.drawImage(this.video, 0, 0, this.videoWidth, this.videoHeight, dx, dy, width, height)
       this.ctx.restore()
     }
     this.stats.end()
   }
 
   onResize () {
-  }
-
-  isSupported () {
-    return true
+    super.onResize()
+    this.calculateSourcePoints()
   }
 }
