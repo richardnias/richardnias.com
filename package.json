@@ -26,7 +26,10 @@
   "homepage": "https://github.com/richardnias/richardnias.com#readme",
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "delaunator": "^3.0.2",
+    "gl-matrix": "^2.8.1",
     "page": "^1.10.1",
+    "stats.js": "^0.17.0",
     "three": "^0.96.0"
   },
   "devDependencies": {
