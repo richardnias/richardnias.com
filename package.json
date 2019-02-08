@@ -23,11 +23,6 @@
   "engines": {
     "node": "10.x.x"
   },
-  "browserslist": [
-    "last 2 versions",
-    "> 1%",
-    "not dead"
-  ],
   "homepage": "https://github.com/richardnias/richardnias.com#readme",
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
@@ -57,5 +52,24 @@
   },
   "standard": {
     "parser": "babel-eslint"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not dead"
+  ],
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "useBuiltIns": "usage",
+          "modules": false
+        }
+      ]
+    ],
+    "plugins": [
+      "@babel/syntax-dynamic-import"
+    ]
   }
 }
