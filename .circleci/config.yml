@@ -38,6 +38,9 @@ jobs:
             - public
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
 
+      - store_artifacts:
+          path: stats.html
+
   deploy:
     machine:
       enabled: true
