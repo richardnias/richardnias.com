@@ -2,12 +2,11 @@ import BasePage from '../lib/basePage'
 
 const AudioContext = window.AudioContext
 
-const FFT_SIZE = 2048
-const WINDOW_PARAM = 0.16
-const LINE_WIDTH = 3
-const STROKE_STYLE = 'rgb(255, 255, 255)'
+const FILL_STYLE = '#ffffff'
+const FFT_SIZE = 32
+const BAR_WIDTH_MULTIPLIER = 1
 
-export default class OscilloscopePage extends BasePage {
+export default class FFTPage extends BasePage {
   constructor () {
     super()
     this.errorMessage = 'AudioContext is not supported by this browser'
@@ -31,8 +30,8 @@ export default class OscilloscopePage extends BasePage {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
     this.ctx = this.canvas.getContext('2d')
-    this.ctx.lineWidth = LINE_WIDTH
-    this.ctx.strokeStyle = STROKE_STYLE
+    this.ctx.fillStyle = FILL_STYLE
+    this.ctx.lineWidth = 0
 
     return this.canvas
   }
@@ -43,26 +42,17 @@ export default class OscilloscopePage extends BasePage {
     const { width, height } = this.canvas
     const ctx = this.ctx
 
-    const sliceWidth = width / this.bufferLength
+    const barWidth = width / this.bufferLength * BAR_WIDTH_MULTIPLIER
 
-    this.analyser.getByteTimeDomainData(this.data)
+    this.analyser.getByteFrequencyData(this.data)
 
     ctx.clearRect(0, 0, width, height)
-    ctx.beginPath()
-    ctx.moveTo(0, height / 2)
 
     this.data.forEach((d, i) => {
-      const x = sliceWidth * i
-      const y = (d / 128 * height / 2 - height / 2) * this.calculateWindow(i) + height / 2
-      ctx.lineTo(x, y)
+      const x = barWidth * i
+      const barHeight = height / 255 * d / 2
+      ctx.fillRect(x, height - barHeight, barWidth, barHeight)
     })
-
-    ctx.lineTo(width, height / 2)
-    ctx.stroke()
-  }
-
-  calculateWindow (n) {
-    return (1 - WINDOW_PARAM) / 2 - 0.5 * Math.cos((2 * Math.PI * n) / (this.bufferLength - 1)) + WINDOW_PARAM / 2 * Math.cos((4 * Math.PI * n) / (this.bufferLength - 1))
   }
 
   onResize () {
