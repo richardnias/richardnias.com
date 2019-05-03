@@ -1,7 +1,7 @@
 import CircularBuffer from '../lib/circularBuffer'
 
 import WebcamPage from '../lib/webcam'
-import { copyUintArray } from '../lib/util'
+import { copyUintArray, extractFrameData } from '../lib/util'
 
 const DELAY = 10
 
@@ -17,11 +17,8 @@ export default class RGBPage extends WebcamPage {
 
     const [dx, dy, width, height] = this.calculateDrawImageParams()
 
-    // draw video to canvas
-    this.ctx.drawImage(this.video, 0, 0, this.videoWidth, this.videoHeight, dx, dy, width, height)
-
     // get ImageData
-    let frame = this.ctx.getImageData(dx, dy, width, height)
+    let frame = this.extractVideoData(dx, dy, width, height)
 
     // save a copy
     const currentFrame = copyUintArray(frame.data)

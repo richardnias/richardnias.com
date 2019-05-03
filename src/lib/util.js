@@ -20,3 +20,12 @@ export function removeCanvas () {
     canvas.remove()
   }
 }
+
+export function extractFrameData(ctx, video, dx, dy, width, height) {
+  // draw video to canvas
+  ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, dx, dy, width, height)
+
+    // get ImageData
+  return ctx.getImageData(dx, dy, width, height)
+
+}
