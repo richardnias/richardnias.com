@@ -1,7 +1,7 @@
 import CircularBuffer from '../lib/circularBuffer'
 
 import WebcamPage from '../lib/webcam'
-import { copyUintArray, extractFrameData } from '../lib/util'
+import { copyUintArray } from '../lib/util'
 
 const DELAY = 10
 
