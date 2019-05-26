@@ -1,5 +1,5 @@
 import BasePage from './basePage'
-import {extractFrameData} from './util'
+import { extractFrameData } from './util'
 
 const REQUESTED_VIDEO_WIDTH = 1280
 const REQUESTED_VIDEO_HEIGHT = 720
@@ -59,7 +59,7 @@ export default class WebcamPage extends BasePage {
     return [dx, dy, width, height]
   }
 
-  extractVideoData(dx, dy, width, height) {
+  extractVideoData (dx, dy, width, height) {
     return extractFrameData(this.ctx, this.video, dx, dy, width, height)
   }
 
