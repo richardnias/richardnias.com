@@ -9,7 +9,8 @@
     "lint": "standard",
     "lint-fix": "standard --fix",
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --open --config webpack.dev.js"
+    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "lighthouse": "lighthouse https://richardnias.com --output-path stdout > lighthouse.html"
   },
   "repository": {
     "type": "git",
