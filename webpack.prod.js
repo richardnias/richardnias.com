@@ -5,7 +5,7 @@ const CompressionPlugin = require('compression-webpack-plugin')
 module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
-  plugins: common.plugins + [
+  plugins: [
     new CompressionPlugin({
       filename: '[path][query]',
       algorithm: 'gzip',
