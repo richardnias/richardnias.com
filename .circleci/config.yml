@@ -43,7 +43,7 @@ jobs:
           command: aws s3 sync public s3://richardnias.com --region eu-west-2 --exclude "*" --include "*.js" --exclude "service-worker.js" --cache-control "max-age=2628000, immutable" --content-encoding "gzip"
       - run:
           name: Deploy service-worker.js
-          command: aws s3 sync public s3://richardnias.com --region eu-west-2 --exclude "*" --include "service-worker.js" --cache-control "max-age=0"
+          command: aws s3 sync public s3://richardnias.com --region eu-west-2 --exclude "*" --include "service-worker.js" --cache-control "max-age=0" --content-encoding "gzip"
       - run:
           name: Deploy robots.txt
           command: aws s3 sync public s3://richardnias.com --region eu-west-2 --exclude "*" --include "*.txt" --cache-control "max-age=3600"
