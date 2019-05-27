@@ -28,6 +28,7 @@ jobs:
       - save_cache:
           paths:
             - public
+            - deploy.sh
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - store_artifacts:
           path: stats.html
