@@ -40,7 +40,7 @@ jobs:
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Deploy
-          command: ~/repo/.circleci/deploy.sh
+          command: ~/repo/deploy.sh
   lighthouse:
     docker:
       - image: circleci/node:10-browsers
