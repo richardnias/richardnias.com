@@ -11,6 +11,6 @@ module.exports = merge(common, {
       algorithm: 'gzip',
       test: /\.(js|css|html|svg)$/,
       deleteOriginalAssets: false
-    }),
+    })
   ]
 })
