@@ -40,13 +40,13 @@ jobs:
           key: v1-build-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Deploy JS
-          command: aws s3 sync public/js s3://richardnias.com/js --region eu-west-2 --cache-control "max-age=2628000, immutable" --content-encoding "gzip"
-      - run:
-          name: Deploy HTML
-          command: aws s3 sync public s3://richardnias.com --region eu-west-2 --exclude "js" --cache-control "max-age=3600" --content-encoding "gzip"
+          command: aws s3 sync public s3://richardnias.com --region eu-west-2 --exclude "*" --include "*.js" --cache-control "max-age=2628000, immutable" --content-encoding "gzip"
       - run:
           name: Deploy robots.txt
-          command: aws s3 sync src s3://richardnias.com --region eu-west-2 --include "robots.txt" --cache-control "max-age=3600"
+          command: aws s3 sync public s3://richardnias.com --region eu-west-2 --exclude "*" --include "*.txt" --cache-control "max-age=3600"
+      - run:
+          name: Deploy the rest
+          command: aws s3 sync public s3://richardnias.com --region eu-west-2 --exclude "*.js" --exclude "*.txt" --cache-control "max-age=3600" --content-encoding "gzip"
   lighthouse:
     docker:
       - image: circleci/node:10-browsers
