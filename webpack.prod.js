@@ -14,7 +14,9 @@ module.exports = merge(common, {
       deleteOriginalAssets: false
     }),
     new CopyPlugin([
-      { from: 'src/robots.txt', to: 'robots.txt' }
+      { from: 'src/robots.txt', to: '' },
+      { from: 'src/manifest.json', to: '' },
+      { from: 'src/app-icon-192.png', to: ''}
     ])
   ]
 })
