@@ -16,7 +16,7 @@ module.exports = merge(common, {
     new CopyPlugin([
       { from: 'src/robots.txt', to: '' },
       { from: 'src/manifest.json', to: '' },
-      { from: 'src/app-icon-192.png', to: ''}
+      { from: 'src/app-icon-192.png', to: '' }
     ])
   ]
 })
