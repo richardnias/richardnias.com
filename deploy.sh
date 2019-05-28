@@ -5,6 +5,7 @@ aws s3 sync public s3://richardnias.com \
     --region eu-west-2 \
     --exclude "*" \
     --include "*.js" \
+    --include "*.js.map" \
     --exclude "service-worker.js" \
     --cache-control "max-age=2628000, immutable" \
     --content-encoding "gzip"
@@ -28,6 +29,7 @@ aws s3 sync public s3://richardnias.com \
 # the rest
 aws s3 sync public s3://richardnias.com \
     --region eu-west-2 \
+    --include "*" \
     --exclude "*.js" \
     --exclude "*.html" \
     --cache-control "max-age=3600"
