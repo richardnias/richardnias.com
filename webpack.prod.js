@@ -14,7 +14,7 @@ module.exports = merge(common, {
       deleteOriginalAssets: false
     }),
     new CopyPlugin([
-      { from: 'src/robots.txt', to: 'public' }
+      { from: 'src/robots.txt', to: 'robots.txt' }
     ])
   ]
 })
