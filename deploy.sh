@@ -27,7 +27,7 @@ aws s3 sync public s3://richardnias.com \
 
 # the rest
 aws s3 sync public s3://richardnias.com \
-    --region eu-west-2 
-    --exclude "*.js" 
-    --exclude "*.html" 
+    --region eu-west-2 \
+    --exclude "*.js" \
+    --exclude "*.html" \
     --cache-control "max-age=3600"
