@@ -1,10 +1,9 @@
 import { PlaneBufferGeometry } from 'three/src/geometries/PlaneGeometry'
-import { Color } from 'three/src/math/Color'
 import { Mesh } from 'three/src/objects/Mesh'
 import { ShaderMaterial } from 'three/src/materials/ShaderMaterial'
 import { Camera } from 'three/src/cameras/Camera'
 import { Scene } from 'three/src/scenes/Scene'
-import { Vector2 } from 'three/src/math/Vector2';
+import { Vector2 } from 'three/src/math/Vector2'
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
 import * as FRAG_GL from '../lib/cloud.glsl'
 import * as VERT_GL from '../lib/vert.glsl'
@@ -29,7 +28,7 @@ export default class CloudPage extends BasePage {
 
     this.uniforms = {
       u_time: { type: 'f', value: 1.0 },
-      u_resolution: { type: 'v2', value: new Vector2 },
+      u_resolution: { type: 'v2', value: new Vector2() }
     }
 
     const material = new ShaderMaterial({
@@ -38,7 +37,7 @@ export default class CloudPage extends BasePage {
       fragmentShader: FRAG_GL
     })
 
-    const mesh = new Mesh( geometry, material )
+    const mesh = new Mesh(geometry, material)
     this.scene.add(mesh)
 
     this.renderer = new WebGLRenderer()
