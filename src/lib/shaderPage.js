@@ -10,11 +10,11 @@ import BasePage from './basePage'
 import Detector from './detector'
 
 export default class ShaderPage extends BasePage {
-  get vertShader() {
+  get vertShader () {
     throw new Error('Not implemented!')
   };
 
-  get fragShader() {
+  get fragShader () {
     throw new Error('Not implemented!')
   };
 
