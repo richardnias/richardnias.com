@@ -2,17 +2,22 @@ import '@babel/polyfill'
 import page from 'page'
 import { removeCanvas } from './lib/util'
 import registerSW from './lib/registerServiceWorker'
-
+import hotkeys from 'hotkeys-js'
 registerSW()
 
 let currentPage
 
-function setActiveLinks (context, next) {
-  const oldActive = document.querySelector('.navigation a.active')
-  const newActive = document.querySelector(`.navigation a[href="${context.pathname}"]`)
-  oldActive && oldActive.classList.remove('active')
-  newActive && newActive.classList.add('active')
-  next()
+async function fetchNextPage (pageName) {
+  const { default: Page } = await import(
+    `./pages/${pageName}.js`
+    /* webpackPrefetch: true */
+    /* webpackChunkName: "[request]" */
+  )
+  currentPage = new Page()
+  const canvas = await currentPage.init()
+  removeCanvas()
+  document.body.appendChild(canvas)
+  currentPage.animate()
 }
 
 function stopPreviousPage (context, next) {
@@ -22,19 +27,18 @@ function stopPreviousPage (context, next) {
   next()
 }
 
+function setActiveLinks (context, next) {
+  const oldActive = document.querySelector('.navigation a.active')
+  const newActive = document.querySelector(`.navigation a[href="${context.pathname}"]`)
+  oldActive && oldActive.classList.remove('active')
+  newActive && newActive.classList.add('active')
+  next()
+}
+
 async function routeHandler (context, next) {
   const { route } = context.params
   try {
-    const { default: Page } = await import(
-      `./pages/${route}.js`
-      /* webpackPrefetch: true */
-      /* webpackChunkName: "[request]" */
-    )
-    currentPage = new Page()
-    const canvas = await currentPage.init()
-    removeCanvas()
-    document.body.appendChild(canvas)
-    currentPage.animate()
+    await fetchNextPage(route)
   } catch (e) {
     console.error(e)
     next()
@@ -52,3 +56,8 @@ page('/:route', routeHandler)
 page('/*', removeCanvas)
 
 page.start()
+
+hotkeys('h', function toggleTitle () {
+  const title = document.querySelector('.title')
+  title.classList.toggle('hide')
+})
