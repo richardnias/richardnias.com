@@ -29,6 +29,7 @@
     "@babel/polyfill": "^7.0.0",
     "delaunator": "^3.0.2",
     "gl-matrix": "^2.8.1",
+    "hotkeys-js": "^3.7.2",
     "page": "^1.10.1",
     "three": "^0.96.0"
   },
