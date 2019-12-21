@@ -36,7 +36,7 @@ export default class MeshCamPage extends WebcamPage {
   }
 
   async init () {
-    // todo: different aspect ratios
+    // todo: different pixel densities
     await super.init()
 
     const texture = new VideoTexture(this.video)
