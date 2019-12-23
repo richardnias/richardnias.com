@@ -57,7 +57,9 @@ page('/*', removeCanvas)
 
 page.start()
 
-hotkeys('h', function toggleTitle () {
-  const title = document.querySelector('.title')
-  title.classList.toggle('hide')
+hotkeys('h', function toggleText () {
+  const elements = document.querySelectorAll('.hideable')
+  elements.forEach(function toggleClass(element) {
+    element.classList.toggle('hide')
+  })
 })
