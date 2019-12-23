@@ -5,7 +5,8 @@ export default class BasePage {
     this._running = true
     this._removeResizeListener = () => null
 
-    this.errorMessage = 'Generic error'
+    this.requiresSupportFor = []
+
     this.inspiration = null
 
     this.init = this.init.bind(this)
@@ -15,12 +16,18 @@ export default class BasePage {
   }
 
   isSupported () {
-    return true
+    return this.requiresSupportFor.reduce((acc, dep) => acc && dep.isSupported)
   }
 
   init () {
-    if (!this.isSupported()) {
-      throw new Error(this.errorMessage)
+    let errors = []
+    this.requiresSupportFor.forEach(function checkDependency (dependency) {
+      if (!dependency.isSupported) {
+        errors.push(dependency.message)
+      }
+    })
+    if (errors.length) {
+      throw new Error(errors.join(', '))
     }
     this._removeResizeListener = bindWindowResize(this.onResize.bind(this))
   }

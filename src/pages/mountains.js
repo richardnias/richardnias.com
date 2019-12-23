@@ -23,7 +23,7 @@ const HYPOTENUSE = Math.sqrt(RADIUS * RADIUS * 2)
 export default class MountainPage extends BasePage {
   constructor () {
     super()
-    this.errorMessage = 'WebGL is not supported in this browser'
+    this.requiresSupportFor = [Detector.webgl]
     this.inspiration = {
       title: 'geometry / terrain',
       source: 'Three.js documentation',
@@ -115,9 +115,5 @@ export default class MountainPage extends BasePage {
     this.camera.updateProjectionMatrix()
 
     this.renderer.setSize(window.innerWidth, window.innerHeight)
-  }
-
-  isSupported () {
-    return Detector.webgl
   }
 }

@@ -1,6 +1,6 @@
+import AudioContext from '../lib/audioContext'
 import BasePage from '../lib/basePage'
-
-const AudioContext = window.AudioContext
+import Detector from '../lib/detector'
 
 const FILL_STYLE = '#ffffff'
 const FFT_SIZE = 32
@@ -9,11 +9,11 @@ const BAR_WIDTH_MULTIPLIER = 1
 export default class FFTPage extends BasePage {
   constructor () {
     super()
-    this.errorMessage = 'AudioContext is not supported by this browser'
+    this.requiresSupportFor = [Detector.audioContext, Detector.getUserMedia]
     this.inspiration = {
       title: 'Creating a frequency bar graph',
       source: 'MDN Web Docs',
-      url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API#Creating_a_waveformoscilloscope'
+      url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API#Creating_a_frequency_bar_graph'
     }
   }
 
@@ -63,9 +63,5 @@ export default class FFTPage extends BasePage {
   onResize () {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
-  }
-
-  isSupported () {
-    return navigator.mediaDevices && navigator.mediaDevices.getUserMedia && AudioContext
   }
 }

@@ -1,5 +1,6 @@
 import BasePage from './basePage'
 import { extractFrameData } from './util'
+import Detector from './detector'
 
 const REQUESTED_VIDEO_WIDTH = 1280
 const REQUESTED_VIDEO_HEIGHT = 720
@@ -7,7 +8,7 @@ const REQUESTED_VIDEO_HEIGHT = 720
 export default class WebcamPage extends BasePage {
   constructor () {
     super()
-    this.errorMessage = 'MediaDevices interface not available.'
+    this.requiresSupportFor = [Detector.getUserMedia]
 
     this.calculateDrawImageParams = this.calculateDrawImageParams.bind(this)
   }
@@ -75,9 +76,5 @@ export default class WebcamPage extends BasePage {
       this.video.srcObject.getTracks().forEach(s => s.stop())
       this.video.srcObject = null
     }
-  }
-
-  isSupported () {
-    return navigator.mediaDevices && navigator.mediaDevices.getUserMedia
   }
 }

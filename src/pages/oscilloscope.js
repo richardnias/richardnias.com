@@ -1,6 +1,6 @@
+import AudioContext from '../lib/audioContext'
 import BasePage from '../lib/basePage'
-
-const AudioContext = window.AudioContext
+import Detector from '../lib/detector'
 
 const FFT_SIZE = 2048
 const WINDOW_PARAM = 0.16
@@ -10,11 +10,11 @@ const STROKE_STYLE = 'rgb(255, 255, 255)'
 export default class OscilloscopePage extends BasePage {
   constructor () {
     super()
-    this.errorMessage = 'AudioContext is not supported by this browser'
+    this.requiresSupportFor = [Detector.webgl]
     this.inspiration = {
       title: 'Creating a waveform/oscilloscope',
       source: 'MDN Web Docs',
-      url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API#Creating_a_frequency_bar_graph'
+      url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API#Creating_a_waveformoscilloscope'
     }
   }
 
@@ -73,9 +73,5 @@ export default class OscilloscopePage extends BasePage {
   onResize () {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
-  }
-
-  isSupported () {
-    return navigator.mediaDevices && navigator.mediaDevices.getUserMedia && AudioContext
   }
 }
