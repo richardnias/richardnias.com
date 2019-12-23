@@ -59,7 +59,7 @@ page.start()
 
 hotkeys('h', function toggleText () {
   const elements = document.querySelectorAll('.hideable')
-  elements.forEach(function toggleClass(element) {
+  elements.forEach(function toggleClass (element) {
     element.classList.toggle('hide')
   })
 })
