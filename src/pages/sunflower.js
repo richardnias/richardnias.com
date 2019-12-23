@@ -1,4 +1,5 @@
 import BasePage from '../lib/basePage'
+import Detector from '../lib/detector'
 
 const OFFSET = 0
 const ROTATION_SPEED = 0.000001
@@ -72,5 +73,9 @@ export default class SunflowerPage extends BasePage {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
     this.numPoints = Math.min(window.innerWidth / 2 - OFFSET, window.innerHeight / 2 - OFFSET) * DENSITY
+  }
+
+  isSupported () {
+    return Detector.canvas
   }
 }
