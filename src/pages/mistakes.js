@@ -1,4 +1,5 @@
 import BasePage from '../lib/basePage'
+import Detector from '../lib/detector'
 
 const SEGMENT_LENGTH = 10
 const SPACING = 10
@@ -13,6 +14,7 @@ function distance (x1, y1, x2, y2) {
 export default class LinePage extends BasePage {
   constructor () {
     super()
+    this.requiresSupportFor = [Detector.canvas]
     this.inspiration = {
       title: 'Linetrace',
       source: 'Inconvergent',
