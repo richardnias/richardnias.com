@@ -1,6 +1,6 @@
+import AudioContext from '../lib/audioContext'
 import BasePage from '../lib/basePage'
-
-const AudioContext = window.AudioContext
+import Detector from '../lib/detector'
 
 const FFT_SIZE = 2048
 const WINDOW_PARAM = 0.16
@@ -10,7 +10,7 @@ const STROKE_STYLE = 'rgb(255, 255, 255)'
 export default class OscilloscopePage extends BasePage {
   constructor () {
     super()
-    this.errorMessage = 'AudioContext is not supported by this browser'
+    this.requiresSupportFor = [Detector.webgl]
     this.inspiration = {
       title: 'Creating a waveform/oscilloscope',
       source: 'MDN Web Docs',
@@ -73,9 +73,5 @@ export default class OscilloscopePage extends BasePage {
   onResize () {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
-  }
-
-  isSupported () {
-    return navigator.mediaDevices && navigator.mediaDevices.getUserMedia && AudioContext
   }
 }

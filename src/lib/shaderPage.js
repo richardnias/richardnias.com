@@ -20,7 +20,7 @@ export default class ShaderPage extends BasePage {
 
   constructor () {
     super()
-    this.errorMessage = 'WebGL is not supported in this browser'
+    this.requiresSupportFor = [Detector.webgl]
   }
 
   init () {
@@ -65,9 +65,5 @@ export default class ShaderPage extends BasePage {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.uniforms.u_resolution.value.x = this.renderer.domElement.width
     this.uniforms.u_resolution.value.y = this.renderer.domElement.height
-  }
-
-  isSupported () {
-    return Detector.webgl
   }
 }

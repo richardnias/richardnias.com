@@ -11,7 +11,7 @@ const DENSITY = 6
 export default class SunflowerPage extends BasePage {
   constructor () {
     super()
-    this.errorMessage = 'Canvas not supported!'
+    this.requiresSupportFor = [Detector.canvas]
     this.inspiration = {
       title: 'The Golden Ratio (why it is so irrational)',
       source: 'Numberphile',
@@ -74,9 +74,5 @@ export default class SunflowerPage extends BasePage {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
     this.numPoints = Math.min(window.innerWidth / 2 - OFFSET, window.innerHeight / 2 - OFFSET) * DENSITY
-  }
-
-  isSupported () {
-    return Detector.canvas
   }
 }
