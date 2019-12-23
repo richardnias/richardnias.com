@@ -21,10 +21,6 @@ export default class ShaderPage extends BasePage {
   constructor () {
     super()
     this.errorMessage = 'WebGL is not supported in this browser'
-    this.inspiration = {
-      text: 'The Book of Shaders',
-      url: 'https://thebookofshaders.com/13/'
-    }
   }
 
   init () {

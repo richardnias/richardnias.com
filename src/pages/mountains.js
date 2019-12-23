@@ -25,7 +25,8 @@ export default class MountainPage extends BasePage {
     super()
     this.errorMessage = 'WebGL is not supported in this browser'
     this.inspiration = {
-      text: 'Three.js documentation',
+      title: 'geometry / terrain',
+      source: 'Three.js documentation',
       url: 'https://threejs.org/examples/#webgl_geometry_terrain'
     }
   }

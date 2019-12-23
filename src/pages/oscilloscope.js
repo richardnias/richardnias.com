@@ -12,7 +12,8 @@ export default class OscilloscopePage extends BasePage {
     super()
     this.errorMessage = 'AudioContext is not supported by this browser'
     this.inspiration = {
-      text: '"Creating a frequency bar graph", MDN Web Docs',
+      title: 'Creating a waveform/oscilloscope',
+      source: 'MDN Web Docs',
       url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API#Creating_a_frequency_bar_graph'
     }
   }

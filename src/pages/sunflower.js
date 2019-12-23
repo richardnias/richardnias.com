@@ -13,7 +13,8 @@ export default class SunflowerPage extends BasePage {
     super()
     this.errorMessage = 'Canvas not supported!'
     this.inspiration = {
-      text: 'The Golden Ratio (why it is so irrational) - Numberphile',
+      title: 'The Golden Ratio (why it is so irrational)',
+      source: 'Numberphile',
       url: 'https://www.youtube.com/watch?v=sj8Sg8qnjOg'
     }
   }
