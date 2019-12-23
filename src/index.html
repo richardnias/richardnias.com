@@ -34,7 +34,9 @@
         }
 
         p, li {
+            color: white;
             font-family: 'Work Sans', sans-serif;
+            margin: 0;
         }
 
         .content {
@@ -65,8 +67,13 @@
             padding-left: 1rem;
         }
 
-        .title.hide {
+        .hide {
           display: none;
+        }
+
+        .help-text {
+            align-self: start;
+            padding: 2rem;
         }
 
         ul {
@@ -108,22 +115,33 @@
             left: 0;
             z-index: -1;
         }
+
+        @media (max-width: 768px) {
+            .help-text {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
 <div class="content">
     <div class="quadrant">
         <div class="spacer"></div>
-        <div class="title">
+        <div class="title hideable">
             <h2>richard nias</h2>
             <h3>software engineer</h3>
         </div>
     </div>
     <div class="quadrant"></div>
-    <div class="quadrant"></div>
     <div class="quadrant">
         <div class="spacer"></div>
-        <div class="navigation">
+        <div class="help-text hideable">
+            <p>hit "h" to hide/unhide text</p>
+        </div>
+    </div>
+    <div class="quadrant">
+        <div class="spacer"></div>
+        <div class="navigation hideable">
             <ul>
                 <li>
                     <a class='active' href="/">home</a>
