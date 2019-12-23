@@ -10,6 +10,10 @@ export default class FFTPage extends BasePage {
   constructor () {
     super()
     this.errorMessage = 'AudioContext is not supported by this browser'
+    this.inspiration = {
+      text: '"Creating a waveform/oscilloscope", MDN Web Docs',
+      url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API#Creating_a_waveformoscilloscope'
+    }
   }
 
   async init () {
