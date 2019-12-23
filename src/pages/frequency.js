@@ -13,7 +13,7 @@ export default class FFTPage extends BasePage {
     this.inspiration = {
       title: 'Creating a frequency bar graph',
       source: 'MDN Web Docs',
-      url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API#Creating_a_waveformoscilloscope'
+      url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Visualizations_with_Web_Audio_API#Creating_a_frequency_bar_graph'
     }
   }
 
