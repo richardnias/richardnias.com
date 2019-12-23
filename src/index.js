@@ -3,9 +3,11 @@ import page from 'page'
 import { removeCanvas } from './lib/util'
 import registerSW from './lib/registerServiceWorker'
 import hotkeys from 'hotkeys-js'
+
 registerSW()
 
 let currentPage
+const inspirationElement = document.querySelector('.inspiration p')
 
 async function fetchNextPage (pageName) {
   const { default: Page } = await import(
@@ -16,6 +18,7 @@ async function fetchNextPage (pageName) {
   currentPage = new Page()
   const canvas = await currentPage.init()
   removeCanvas()
+  setInspiration(currentPage.inspiration)
   document.body.appendChild(canvas)
   currentPage.animate()
 }
@@ -33,6 +36,15 @@ function setActiveLinks (context, next) {
   oldActive && oldActive.classList.remove('active')
   newActive && newActive.classList.add('active')
   next()
+}
+
+function setInspiration (inspiration) {
+  let inspoHtml = ''
+  if (inspiration) {
+    const { url, title, source } = inspiration
+    inspoHtml = `inspired by: <a href="${url}" target="_blank">"${title}" — ${source}</a>`
+  }
+  inspirationElement.innerHTML = inspoHtml
 }
 
 async function routeHandler (context, next) {

@@ -6,6 +6,7 @@ export default class BasePage {
     this._removeResizeListener = () => null
 
     this.errorMessage = 'Generic error'
+    this.inspiration = null
 
     this.init = this.init.bind(this)
     this.animate = this.animate.bind(this)
