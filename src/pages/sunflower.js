@@ -8,6 +8,15 @@ const POINT_RADIUS = 2
 const DENSITY = 6
 
 export default class SunflowerPage extends BasePage {
+  constructor () {
+    super()
+    this.errorMessage = 'Canvas not supported!'
+    this.inspiration = {
+      text: 'The Golden Ratio (why it is so irrational) - Numberphile',
+      url: 'https://www.youtube.com/watch?v=sj8Sg8qnjOg'
+    }
+  }
+
   async init () {
     super.init()
 
