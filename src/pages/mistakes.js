@@ -1,11 +1,11 @@
 import BasePage from '../lib/basePage'
 import Detector from '../lib/detector'
+import {WHITE} from '../lib/canvasStyles'
 
 const SEGMENT_LENGTH = 10
 const SPACING = 10
 const ERROR_SIZE = Math.PI / 8
 const LINE_WIDTH = 0.5
-const STROKE_STYLE = '#FFFFFF'
 
 function distance (x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
@@ -82,8 +82,6 @@ export default class LinePage extends BasePage {
   animate () {
     let { ctx } = this
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
-    this.ctx.lineWidth = LINE_WIDTH
-    this.ctx.strokeStyle = STROKE_STYLE
 
     let drawLine = this.drawLine.bind(this)
 
@@ -97,6 +95,8 @@ export default class LinePage extends BasePage {
   onResize () {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
+    this.ctx.lineWidth = LINE_WIDTH
+    this.ctx.strokeStyle = WHITE
     this.generateLines()
     this.animate()
   }
