@@ -28,9 +28,11 @@ export default class LinePage extends BasePage {
     this.canvas = document.createElement('canvas')
     this.ctx = this.canvas.getContext('2d')
     this.onResize()
-    this.ctx.lineWidth = LINE_WIDTH
-    this.ctx.strokeStyle = STROKE_STYLE
 
+    return this.canvas
+  }
+
+  generateLines () {
     let ySegments = Math.round(window.innerHeight / SEGMENT_LENGTH) + 1
     let line = Array(ySegments).fill(0).map((_, i) => [SPACING, SEGMENT_LENGTH * i])
 
@@ -40,8 +42,6 @@ export default class LinePage extends BasePage {
       line = this.generateLine(line)
       this.lines.push(line)
     }
-
-    return this.canvas
   }
 
   generateError () {
@@ -81,6 +81,10 @@ export default class LinePage extends BasePage {
 
   animate () {
     let { ctx } = this
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+    this.ctx.lineWidth = LINE_WIDTH
+    this.ctx.strokeStyle = STROKE_STYLE
+
     let drawLine = this.drawLine.bind(this)
 
     this.lines.forEach(function (line) {
@@ -93,5 +97,7 @@ export default class LinePage extends BasePage {
   onResize () {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
+    this.generateLines()
+    this.animate()
   }
 }
