@@ -1,8 +1,8 @@
 import AudioContext from '../lib/audioContext'
 import BasePage from '../lib/basePage'
 import Detector from '../lib/detector'
+import { WHITE } from '../lib/canvasStyles'
 
-const FILL_STYLE = '#ffffff'
 const FFT_SIZE = 32
 const BAR_WIDTH_MULTIPLIER = 1
 
@@ -32,11 +32,8 @@ export default class FFTPage extends BasePage {
     this.data = new Uint8Array(this.bufferLength)
 
     this.canvas = document.createElement('canvas')
-    this.canvas.width = window.innerWidth
-    this.canvas.height = window.innerHeight
     this.ctx = this.canvas.getContext('2d')
-    this.ctx.fillStyle = FILL_STYLE
-    this.ctx.lineWidth = 0
+    this.onResize()
 
     return this.canvas
   }
@@ -63,5 +60,7 @@ export default class FFTPage extends BasePage {
   onResize () {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
+    this.ctx.fillStyle = WHITE
+    this.ctx.lineWidth = 0
   }
 }

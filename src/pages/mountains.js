@@ -11,6 +11,7 @@ import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
 import BasePage from '../lib/basePage'
 import Detector from '../lib/detector'
 import generateTerrain from '../lib/terrainGen'
+import { PINK } from '../lib/canvasStyles'
 import { weightedAvg } from '../lib/util'
 
 const WORLD_WIDTH = 512
@@ -56,8 +57,8 @@ export default class MountainPage extends BasePage {
 
     this.camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 20000)
     this.scene = new Scene()
-    this.scene.background = new Color(0xd595a3)
-    this.scene.fog = new FogExp2(0xd595a3, 0.001)
+    this.scene.background = new Color(PINK)
+    this.scene.fog = new FogExp2(PINK, 0.001)
 
     this.scene.add(mesh)
 

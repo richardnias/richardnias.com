@@ -1,11 +1,11 @@
 import AudioContext from '../lib/audioContext'
 import BasePage from '../lib/basePage'
 import Detector from '../lib/detector'
+import { WHITE } from '../lib/canvasStyles'
 
 const FFT_SIZE = 2048
 const WINDOW_PARAM = 0.16
 const LINE_WIDTH = 3
-const STROKE_STYLE = 'rgb(255, 255, 255)'
 
 export default class OscilloscopePage extends BasePage {
   constructor () {
@@ -33,11 +33,8 @@ export default class OscilloscopePage extends BasePage {
     this.data = new Uint8Array(this.bufferLength)
 
     this.canvas = document.createElement('canvas')
-    this.canvas.width = window.innerWidth
-    this.canvas.height = window.innerHeight
     this.ctx = this.canvas.getContext('2d')
-    this.ctx.lineWidth = LINE_WIDTH
-    this.ctx.strokeStyle = STROKE_STYLE
+    this.onResize()
 
     return this.canvas
   }
@@ -73,5 +70,7 @@ export default class OscilloscopePage extends BasePage {
   onResize () {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
+    this.ctx.lineWidth = LINE_WIDTH
+    this.ctx.strokeStyle = WHITE
   }
 }

@@ -1,10 +1,10 @@
 import BasePage from '../lib/basePage'
 import Detector from '../lib/detector'
+import { WHITE } from '../lib/canvasStyles'
 
 const OFFSET = 0
 const ROTATION_SPEED = 0.000001
 const INITIAL_ROTATION_FACTOR = (1 + Math.sqrt(5)) / 2 - 0.0001
-const FILL_STYLE = '#FFFFFF'
 const POINT_RADIUS = 2
 const DENSITY = 6
 
@@ -48,7 +48,6 @@ export default class SunflowerPage extends BasePage {
 
   drawPoints (ctx, points) {
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    ctx.fillStyle = FILL_STYLE
 
     points.forEach(function ({ x, y }) {
       ctx.fillRect(x - POINT_RADIUS, y - POINT_RADIUS, POINT_RADIUS * 2, POINT_RADIUS * 2)
@@ -73,6 +72,7 @@ export default class SunflowerPage extends BasePage {
   onResize () {
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
+    this.ctx.fillStyle = WHITE
     this.numPoints = Math.min(window.innerWidth / 2 - OFFSET, window.innerHeight / 2 - OFFSET) * DENSITY
   }
 }
