@@ -1,6 +1,6 @@
 import BasePage from '../lib/basePage'
 import Detector from '../lib/detector'
-import {WHITE} from '../lib/canvasStyles'
+import { WHITE } from '../lib/canvasStyles'
 
 const SEGMENT_LENGTH = 10
 const SPACING = 10
