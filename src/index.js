@@ -1,12 +1,15 @@
 import '@babel/polyfill'
 import page from 'page'
-import { removeCanvas } from './lib/util'
-import registerSW from './lib/registerServiceWorker'
 import hotkeys from 'hotkeys-js'
+
+import { getHiddenState, persistHiddenState } from './lib/cookie'
+import registerSW from './lib/registerServiceWorker'
+import { removeCanvas } from './lib/util'
 
 registerSW()
 
 let currentPage
+let hidden = getHiddenState()
 const inspirationElement = document.querySelector('.inspiration p')
 
 async function fetchNextPage (pageName) {
@@ -47,6 +50,17 @@ function setInspiration (inspiration) {
   inspirationElement.innerHTML = inspoHtml
 }
 
+function setTextHidden (_hidden) {
+  const elements = document.querySelectorAll('.hideable')
+  elements.forEach(function toggleClass (element) {
+    if (_hidden) {
+      element.classList.add('hide')
+    } else {
+      element.classList.remove('hide')
+    }
+  })
+}
+
 async function routeHandler (context, next) {
   const { route } = context.params
   try {
@@ -68,10 +82,10 @@ page('/:route', routeHandler)
 page('/*', removeCanvas)
 
 page.start()
+setTextHidden(hidden)
 
 hotkeys('h', function toggleText () {
-  const elements = document.querySelectorAll('.hideable')
-  elements.forEach(function toggleClass (element) {
-    element.classList.toggle('hide')
-  })
+  hidden = !hidden
+  persistHiddenState(hidden)
+  setTextHidden(hidden)
 })
