@@ -48,9 +48,7 @@ export default class ShaderPage extends BasePage {
 
     this.renderer = new WebGLRenderer()
     this.renderer.setPixelRatio(window.devicePixelRatio)
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
-    this.uniforms.u_resolution.value.x = this.renderer.domElement.width
-    this.uniforms.u_resolution.value.y = this.renderer.domElement.height
+    this.onResize()
 
     return this.renderer.domElement
   }
