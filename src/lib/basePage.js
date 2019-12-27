@@ -2,7 +2,7 @@ import { bindWindowResize } from './util'
 
 export default class BasePage {
   constructor () {
-    this._running = true
+    this._running = false
     this._removeResizeListener = () => null
 
     this.requiresSupportFor = []
@@ -33,9 +33,10 @@ export default class BasePage {
   }
 
   animate () {
-    if (this._running) {
-      window.requestAnimationFrame(this.animate)
+    if (!this._running) {
+      return
     }
+    window.requestAnimationFrame(this.animate)
   }
 
   onResize (w, h) {
@@ -43,7 +44,20 @@ export default class BasePage {
   }
 
   stop () {
-    this._running = false
+    this.pause()
     this._removeResizeListener()
+  }
+
+  pause () {
+    this._running = false
+  }
+
+  start () {
+    this._running = true
+    this.animate()
+  }
+
+  stopped () {
+    return !this._running
   }
 }
