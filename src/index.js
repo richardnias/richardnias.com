@@ -20,7 +20,7 @@ async function fetchNextPage (pageName) {
   removeCanvas()
   setInspiration(currentPage.inspiration)
   document.body.appendChild(canvas)
-  currentPage.animate()
+  currentPage.start()
 }
 
 function stopPreviousPage (context, next) {
