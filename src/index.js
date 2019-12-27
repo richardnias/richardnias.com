@@ -42,7 +42,7 @@ function setInspiration (inspiration) {
   let inspoHtml = ''
   if (inspiration) {
     const { url, title, source } = inspiration
-    inspoHtml = `inspired by: <a href="${url}" target="_blank">"${title}" — ${source}</a>`
+    inspoHtml = `inspired by: <a href="${url}" target="_blank">"${title}" &mdash; ${source}</a>`
   }
   inspirationElement.innerHTML = inspoHtml
 }
