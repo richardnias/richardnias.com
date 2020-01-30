@@ -10,7 +10,7 @@ module.exports = merge(common, {
     host: 'richardnias.local',
     https: {
       key: fs.readFileSync('ssl/richardnias.local-key.pem'),
-      cert: fs.readFileSync('ssl/richardnias.local.pem'),
+      cert: fs.readFileSync('ssl/richardnias.local.pem')
     }
   }
 })
