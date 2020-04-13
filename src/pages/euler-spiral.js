@@ -5,10 +5,7 @@ import BasePage from '../lib/basePage'
 import Detector from '../lib/detector'
 import { WHITE } from '../lib/canvasStyles'
 
-const LINE_WIDTH = 1
-
-const SEGMENT_LENGTH = random(-14, 14)
-const THETA = random(-0.15, 0.15)
+const LINE_WIDTH = 0.5
 const STEPS = 10
 
 const triangleNumber = n => n * (n + 1) / 2
@@ -27,6 +24,9 @@ export default class EulerSpiralPage extends BasePage {
   async init () {
     super.init()
 
+    this.segmentLength = random(-14, 14)
+    this.theta = random(-0.15, 0.15)
+
     this.canvas = document.createElement('canvas')
     this.ctx = this.canvas.getContext('2d')
     this.setDimensions()
@@ -34,8 +34,8 @@ export default class EulerSpiralPage extends BasePage {
     return this.canvas
   }
 
-  generatePoint ([x, y], theta) {
-    return [x + Math.cos(theta) * SEGMENT_LENGTH, y + Math.sin(theta) * SEGMENT_LENGTH]
+  generatePoint ([x, y], segmentLength, theta) {
+    return [x + Math.cos(theta) * segmentLength, y + Math.sin(theta) * segmentLength]
   }
 
   transformPoint ([x, y]) {
@@ -60,7 +60,7 @@ export default class EulerSpiralPage extends BasePage {
     let n = this.points.length
 
     for (let i = 0; i < STEPS; i++) {
-      let nextPoint = this.generatePoint(lastPoint, THETA * triangleNumber(n + i))
+      let nextPoint = this.generatePoint(lastPoint, this.segmentLength, this.theta * triangleNumber(n + i))
 
       this.drawLine(this.ctx, lastPoint, nextPoint)
       this.points.push(nextPoint)
@@ -77,7 +77,7 @@ export default class EulerSpiralPage extends BasePage {
     this.ctx.strokeStyle = WHITE
     this.ctx.fillStyle = WHITE
     this.ctx.font = '1rem Work Sans, Arial'
-    this.ctx.fillText(`r=${SEGMENT_LENGTH}, θ=${Math.round(THETA * 1000) / 1000}`, 50, 50)
+    this.ctx.fillText(`segmentLength=${this.segmentLength}, θ=${Math.round(this.theta * 1000) / 1000}`, 50, 50)
     this.points = [[0, 0]]
   }
 
