@@ -7,9 +7,9 @@ import { WHITE } from '../lib/canvasStyles'
 
 const LINE_WIDTH = 1
 
-const SEGMENT_LENGTH = random(6, 14)
-const THETA = random(0, 0.15)
-const STEPS = 5
+const SEGMENT_LENGTH = random(-14, 14)
+const THETA = random(-0.15, 0.15)
+const STEPS = 10
 
 const triangleNumber = n => n * (n + 1) / 2
 
