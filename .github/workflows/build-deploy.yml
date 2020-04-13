@@ -67,4 +67,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - run: npm ci
+
+      - run: npm run build
+
       - run: ./deploy.sh
