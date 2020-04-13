@@ -41,7 +41,7 @@ jobs:
         path: stats.html
 
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
 
     steps:
@@ -66,5 +66,9 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
+      - run: npm ci
+
+      - run: npm run build
 
       - run: ./deploy.sh
