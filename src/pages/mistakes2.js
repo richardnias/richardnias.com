@@ -139,7 +139,6 @@ export default class LinePage extends BasePage {
     this.setDimensions()
 
     if (this.stopped()) {
-      console.log('stopped!')
       this.start()
     }
   }
