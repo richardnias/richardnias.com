@@ -4,6 +4,8 @@ import { BLACK, WHITE } from "../lib/canvasStyles";
 import { triangleNumber } from "../lib/util";
 
 const LINE_WIDTH = 1;
+const ROTATION_SPEED = 0.000004 * window.devicePixelRatio;
+const SEGMENT_LENGTH = 20 / window.devicePixelRatio;
 const TOTAL_POINTS = 300;
 
 export default class EulerSpiral2Page extends BasePage {
@@ -23,6 +25,8 @@ export default class EulerSpiral2Page extends BasePage {
     this.canvas = document.createElement("canvas");
     this.ctx = this.canvas.getContext("2d");
     this.setDimensions();
+
+    this.theta = 0;
 
     return this.canvas;
   }
@@ -72,7 +76,7 @@ export default class EulerSpiral2Page extends BasePage {
       lastPoint = nextPoint;
     }
 
-    this.theta += 0.000003;
+    this.theta += ROTATION_SPEED;
   }
 
   setDimensions() {
@@ -82,8 +86,7 @@ export default class EulerSpiral2Page extends BasePage {
     this.ctx.lineWidth = LINE_WIDTH;
     this.ctx.strokeStyle = WHITE;
     this.ctx.fillStyle = BLACK;
-    this.theta = 0;
-    this.segmentLength = 20;
+    this.segmentLength = SEGMENT_LENGTH;
   }
 
   onResize() {

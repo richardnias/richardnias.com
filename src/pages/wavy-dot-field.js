@@ -5,7 +5,7 @@ import { WHITE } from "../lib/canvasStyles";
 const POINT_RADIUS = 2;
 const WAVE_RADIUS = 40;
 const MARGIN = WAVE_RADIUS * 2;
-const DENSITY = 1.2;
+const DENSITY = 1.2 * window.devicePixelRatio;
 const FREQUENCY = 5;
 const SPEED = 0.025;
 
