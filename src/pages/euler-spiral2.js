@@ -78,7 +78,6 @@ export default class EulerSpiral2Page extends BasePage {
     this.setDimensions()
 
     if (this.stopped()) {
-      console.log('stopped!')
       this.start()
     }
   }
