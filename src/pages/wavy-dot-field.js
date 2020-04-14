@@ -2,12 +2,12 @@ import BasePage from "../lib/basePage";
 import Detector from "../lib/detector";
 import { WHITE } from "../lib/canvasStyles";
 
-const POINT_RADIUS = 2;
-const WAVE_RADIUS = 40;
+const POINT_RADIUS = 2 / (window.devicePixelRatio / 2 + 0.5);
+const WAVE_RADIUS = 40 / window.devicePixelRatio;
 const MARGIN = WAVE_RADIUS * 2;
-const DENSITY = 1.2 * window.devicePixelRatio;
+const DENSITY = 1.2;
 const FREQUENCY = 5;
-const SPEED = 0.025;
+const SPEED = 0.025 * (window.devicePixelRatio / 2 + 0.5);
 
 export default class SunflowerPage extends BasePage {
   constructor() {
