@@ -1,18 +1,18 @@
-import * as FRAG_GL from '../shaders/cloud.glsl'
-import * as VERT_GL from '../shaders/vert.glsl'
+import * as FRAG_GL from "../shaders/cloud.glsl";
+import * as VERT_GL from "../shaders/vert.glsl";
 
-import ShaderPage from '../lib/shaderPage'
+import ShaderPage from "../lib/shaderPage";
 
 export default class CloudPage extends ShaderPage {
-  vertShader = VERT_GL
-  fragShader = FRAG_GL
+  vertShader = VERT_GL;
+  fragShader = FRAG_GL;
 
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.inspiration = {
-      title: 'Fractal Brownian Motion',
-      source: 'The Book of Shaders',
-      url: 'https://thebookofshaders.com/13/'
-    }
+      title: "Fractal Brownian Motion",
+      source: "The Book of Shaders",
+      url: "https://thebookofshaders.com/13/",
+    };
   }
 }

@@ -1,63 +1,63 @@
-import { bindWindowResize } from './util'
+import { bindWindowResize } from "./util";
 
 export default class BasePage {
-  constructor () {
-    this._running = false
-    this._removeResizeListener = () => null
+  constructor() {
+    this._running = false;
+    this._removeResizeListener = () => null;
 
-    this.requiresSupportFor = []
+    this.requiresSupportFor = [];
 
-    this.inspiration = null
+    this.inspiration = null;
 
-    this.init = this.init.bind(this)
-    this.animate = this.animate.bind(this)
-    this.onResize = this.onResize.bind(this)
-    this.stop = this.stop.bind(this)
+    this.init = this.init.bind(this);
+    this.animate = this.animate.bind(this);
+    this.onResize = this.onResize.bind(this);
+    this.stop = this.stop.bind(this);
   }
 
-  isSupported () {
-    return this.requiresSupportFor.reduce((acc, dep) => acc && dep.isSupported)
+  isSupported() {
+    return this.requiresSupportFor.reduce((acc, dep) => acc && dep.isSupported);
   }
 
-  init () {
-    let errors = []
-    this.requiresSupportFor.forEach(function checkDependency (dependency) {
+  init() {
+    let errors = [];
+    this.requiresSupportFor.forEach(function checkDependency(dependency) {
       if (!dependency.isSupported) {
-        errors.push(dependency.message)
+        errors.push(dependency.message);
       }
-    })
+    });
     if (errors.length) {
-      throw new Error(errors.join(', '))
+      throw new Error(errors.join(", "));
     }
-    this._removeResizeListener = bindWindowResize(this.onResize.bind(this))
+    this._removeResizeListener = bindWindowResize(this.onResize.bind(this));
   }
 
-  animate () {
+  animate() {
     if (!this._running) {
-      return
+      return;
     }
-    window.requestAnimationFrame(this.animate)
+    window.requestAnimationFrame(this.animate);
   }
 
-  onResize (w, h) {
-    console.log('onResize not implemented', w, h)
+  onResize(w, h) {
+    console.log("onResize not implemented", w, h);
   }
 
-  stop () {
-    this.pause()
-    this._removeResizeListener()
+  stop() {
+    this.pause();
+    this._removeResizeListener();
   }
 
-  pause () {
-    this._running = false
+  pause() {
+    this._running = false;
   }
 
-  start () {
-    this._running = true
-    this.animate()
+  start() {
+    this._running = true;
+    this.animate();
   }
 
-  stopped () {
-    return !this._running
+  stopped() {
+    return !this._running;
   }
 }
