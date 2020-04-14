@@ -1,32 +1,42 @@
-export function weightedAvg (a, b) {
-  return (a + b * 999) / 1000
+export function weightedAvg(a, b) {
+  return (a + b * 999) / 1000;
 }
 
-export function copyUintArray (src) {
-  const dest = new Uint8ClampedArray(src.length)
-  dest.set(src)
-  return dest
+export function copyUintArray(src) {
+  const dest = new Uint8ClampedArray(src.length);
+  dest.set(src);
+  return dest;
 }
 
-export function bindWindowResize (setSize) {
-  window.addEventListener('resize', setSize, false)
+export function bindWindowResize(setSize) {
+  window.addEventListener("resize", setSize, false);
 
-  return _ => window.removeEventListener('resize', setSize, false)
+  return () => window.removeEventListener("resize", setSize, false);
 }
 
-export function removeCanvas () {
-  const canvas = document.querySelector('canvas')
+export function removeCanvas() {
+  const canvas = document.querySelector("canvas");
   if (canvas) {
-    canvas.remove()
+    canvas.remove();
   }
 }
 
-export function extractFrameData (ctx, video, dx, dy, width, height) {
+export function extractFrameData(ctx, video, dx, dy, width, height) {
   // draw video to canvas
-  ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight, dx, dy, width, height)
+  ctx.drawImage(
+    video,
+    0,
+    0,
+    video.videoWidth,
+    video.videoHeight,
+    dx,
+    dy,
+    width,
+    height
+  );
 
   // get ImageData
-  return ctx.getImageData(dx, dy, width, height)
+  return ctx.getImageData(dx, dy, width, height);
 }
 
-export const triangleNumber = n => n * (n + 1) / 2
+export const triangleNumber = (n) => (n * (n + 1)) / 2;
