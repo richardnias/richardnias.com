@@ -28,3 +28,5 @@ export function extractFrameData (ctx, video, dx, dy, width, height) {
   // get ImageData
   return ctx.getImageData(dx, dy, width, height)
 }
+
+export const triangleNumber = n => n * (n + 1) / 2

@@ -1,30 +1,24 @@
-import last from 'lodash/last'
-import random from 'lodash/random'
-
 import BasePage from '../lib/basePage'
 import Detector from '../lib/detector'
-import { WHITE } from '../lib/canvasStyles'
+import { BLACK, WHITE } from '../lib/canvasStyles'
 import { triangleNumber } from '../lib/util'
 
-const LINE_WIDTH = 0.5
-const STEPS = 10
+const LINE_WIDTH = 1
+const TOTAL_POINTS = 300
 
-export default class EulerSpiralPage extends BasePage {
+export default class EulerSpiral2Page extends BasePage {
   constructor () {
     super()
     this.requiresSupportFor = [Detector.canvas]
     this.inspiration = {
-      title: '"draw a line, and extend it deflected by a fixed angle..."',
-      source: 'matthen2',
-      url: 'https://twitter.com/matthen2/status/1249611168265547776'
+      title: 'Spiral Generation',
+      source: 'Ben Sparks',
+      url: 'https://www.geogebra.org/m/rgsuh8na'
     }
   }
 
   async init () {
     super.init()
-
-    this.segmentLength = random(-14, 14)
-    this.theta = random(-0.15, 0.15)
 
     this.canvas = document.createElement('canvas')
     this.ctx = this.canvas.getContext('2d')
@@ -50,22 +44,23 @@ export default class EulerSpiralPage extends BasePage {
     ctx.lineTo(x1, y1)
 
     ctx.stroke()
+    this.ctx.fillRect(x1 - LINE_WIDTH / 2, y1 - LINE_WIDTH / 2, LINE_WIDTH, LINE_WIDTH)
   }
 
   animate () {
     super.animate()
 
-    let lastPoint = last(this.points)
-    let n = this.points.length
+    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
 
-    for (let i = 0; i < STEPS; i++) {
-      let nextPoint = this.generatePoint(lastPoint, this.segmentLength, this.theta * triangleNumber(n + i))
+    let lastPoint = [0, 0]
 
+    for (let i = 0; i < TOTAL_POINTS; i++) {
+      let nextPoint = this.generatePoint(lastPoint, this.segmentLength, this.theta * triangleNumber(i))
       this.drawLine(this.ctx, lastPoint, nextPoint)
-      this.points.push(nextPoint)
-
       lastPoint = nextPoint
     }
+
+    this.theta += 0.000003
   }
 
   setDimensions () {
@@ -74,10 +69,9 @@ export default class EulerSpiralPage extends BasePage {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
     this.ctx.lineWidth = LINE_WIDTH
     this.ctx.strokeStyle = WHITE
-    this.ctx.fillStyle = WHITE
-    this.ctx.font = '1rem Work Sans, Arial'
-    this.ctx.fillText(`segmentLength=${this.segmentLength}, θ=${Math.round(this.theta * 1000) / 1000}`, 50, 50)
-    this.points = [[0, 0]]
+    this.ctx.fillStyle = BLACK
+    this.theta = 0
+    this.segmentLength = 20
   }
 
   onResize () {
