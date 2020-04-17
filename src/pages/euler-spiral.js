@@ -81,15 +81,6 @@ export default class EulerSpiralPage extends BasePage {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.ctx.lineWidth = LINE_WIDTH;
     this.ctx.strokeStyle = WHITE;
-    this.ctx.fillStyle = WHITE;
-    this.ctx.font = "1rem Work Sans, Arial";
-    this.ctx.fillText(
-      `segmentLength=${this.segmentLength}, θ=${
-        Math.round(this.theta * 1000) / 1000
-      }`,
-      50,
-      50
-    );
     this.points = [[0, 0]];
   }
 
