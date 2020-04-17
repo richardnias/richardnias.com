@@ -55,8 +55,6 @@ export default class SinePage extends BasePage {
   animate() {
     super.animate();
 
-    // console.log(this.numPoints, -this.numPoints/2, this.numPoints/2)
-
     let t = +new Date() - this.startTime;
 
     let points = range(-this.numPoints / 2, this.numPoints / 2 + 1).map(
@@ -68,8 +66,6 @@ export default class SinePage extends BasePage {
         }%)`,
       })
     );
-
-    console.log(points);
 
     this.drawPoints(this.ctx, points);
   }

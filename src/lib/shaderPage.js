@@ -1,13 +1,7 @@
-import { PlaneBufferGeometry } from "three/src/geometries/PlaneGeometry";
-import { Mesh } from "three/src/objects/Mesh";
-import { ShaderMaterial } from "three/src/materials/ShaderMaterial";
-import { Camera } from "three/src/cameras/Camera";
-import { Scene } from "three/src/scenes/Scene";
-import { Vector2 } from "three/src/math/Vector2";
-import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
-
 import BasePage from "./basePage";
 import Detector from "./detector";
+
+const VERTICES = new Float32Array([1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0]);
 
 export default class ShaderPage extends BasePage {
   get vertShader() {
@@ -26,42 +20,86 @@ export default class ShaderPage extends BasePage {
   init() {
     super.init();
 
-    this.camera = new Camera();
-    this.camera.position.z = 1;
+    this.start_time = new Date();
 
-    this.scene = new Scene();
-    const geometry = new PlaneBufferGeometry(2, 2);
+    let gl, shaderProgram;
 
-    this.uniforms = {
-      u_time: { type: "f", value: 1.0 },
-      u_resolution: { type: "v2", value: new Vector2() },
-    };
+    this.canvas = document.createElement("canvas");
+    this.canvas.width = 400;
+    this.canvas.height = 400;
 
-    const material = new ShaderMaterial({
-      uniforms: this.uniforms,
-      vertexShader: this.vertShader,
-      fragmentShader: this.fragShader,
-    });
+    gl = this.gl = this.canvas.getContext("webgl");
+    shaderProgram = this.shaderProgram = gl.createProgram();
 
-    const mesh = new Mesh(geometry, material);
-    this.scene.add(mesh);
+    let vertShader = this.loadShader(gl, gl.VERTEX_SHADER, this.vertShader);
+    let fragShader = this.loadShader(gl, gl.FRAGMENT_SHADER, this.fragShader);
 
-    this.renderer = new WebGLRenderer();
-    this.renderer.setPixelRatio(window.devicePixelRatio);
+    gl.attachShader(shaderProgram, vertShader);
+    gl.attachShader(shaderProgram, fragShader);
+    gl.linkProgram(shaderProgram);
+
+    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+      throw new Error(gl.getProgramInfoLog(shaderProgram));
+    }
+
+    let positionBuffer = gl.createBuffer();
+    let aVertexPosition = gl.getAttribLocation(shaderProgram, "a_position");
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, VERTICES, gl.STATIC_DRAW);
+    gl.vertexAttribPointer(aVertexPosition, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(aVertexPosition);
+
+    this.uResolution = gl.getUniformLocation(shaderProgram, "u_resolution");
+    this.uTime = gl.getUniformLocation(shaderProgram, "u_time");
+
     this.onResize();
 
-    return this.renderer.domElement;
+    return this.canvas;
+  }
+
+  loadShader(gl, type, source) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      throw new Error(gl.getShaderInfoLog(shader));
+    }
+
+    return shader;
   }
 
   animate() {
     super.animate();
-    this.uniforms.u_time.value += 0.05;
-    this.renderer.render(this.scene, this.camera);
+
+    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    this.gl.clearDepth(1.0);
+    this.gl.enable(this.gl.DEPTH_TEST);
+    this.gl.depthFunc(this.gl.LEQUAL);
+
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+    this.gl.useProgram(this.shaderProgram);
+    this.updateUniforms();
+    this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+  }
+
+  updateUniforms() {
+    this.gl.uniform1fv(
+      this.uTime,
+      new Float32Array([(new Date() - this.start_time) / 1000])
+    );
+    this.gl.uniform2fv(this.uResolution, new Float32Array(this.resolution));
   }
 
   onResize() {
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.uniforms.u_resolution.value.x = this.renderer.domElement.width;
-    this.uniforms.u_resolution.value.y = this.renderer.domElement.height;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    this.canvas.width = width;
+    this.canvas.height = height;
+    this.resolution = [
+      width / (window.devicePixelRatio || 1),
+      height / (window.devicePixelRatio || 1),
+    ];
+    this.gl.viewport(0, 0, width, height);
   }
 }

@@ -69,7 +69,6 @@ export default class LinePage extends BasePage {
         line.push([x + dx * SEGMENT_LENGTH, y + dy * SEGMENT_LENGTH]);
       }
     }
-    console.log(line);
     return line;
   }
 
