@@ -20,7 +20,7 @@ float random (in vec2 st) {
 // Based on Morgan McGuire @morgan3d
 // https://www.shadertoy.com/view/4dS3Wd
 float noise (in vec2 st) {
-    vec2 t = vec2(u_time/7.0, u_time/4.0);
+    vec2 t = vec2(u_time/2.0, u_time/1.1);
     vec2 i = floor(st + t);
     vec2 f = fract(st + t);
 
