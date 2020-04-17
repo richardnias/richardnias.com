@@ -8,6 +8,8 @@ import { Scene } from "three/src/scenes/Scene";
 import { Vector3 } from "three/src/math/Vector3";
 import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
 
+import innerHeight from "ios-inner-height";
+
 import BasePage from "../lib/basePage";
 import Detector from "../lib/detector";
 import generateTerrain from "../lib/terrainGen";
@@ -58,7 +60,7 @@ export default class MountainPage extends BasePage {
 
     this.camera = new PerspectiveCamera(
       60,
-      window.innerWidth / window.innerHeight,
+      window.innerWidth / innerHeight(),
       1,
       20000
     );
@@ -70,7 +72,7 @@ export default class MountainPage extends BasePage {
 
     this.renderer = new WebGLRenderer();
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(window.innerWidth, innerHeight());
     return this.renderer.domElement;
   }
 
@@ -130,9 +132,9 @@ export default class MountainPage extends BasePage {
   }
 
   onResize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.aspect = window.innerWidth / innerHeight();
     this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(window.innerWidth, innerHeight());
   }
 }
