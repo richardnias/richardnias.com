@@ -1,6 +1,7 @@
 import BasePage from "./basePage";
 import { extractFrameData } from "./util";
 import Detector from "./detector";
+import innerHeight from 'ios-inner-height';
 
 const REQUESTED_VIDEO_WIDTH = 1280;
 const REQUESTED_VIDEO_HEIGHT = 720;
@@ -78,7 +79,7 @@ export default class WebcamPage extends BasePage {
 
   onResize() {
     this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+    this.canvas.height = innerHeight();
     this.videoWidth = this.video.videoWidth;
     this.videoHeight = this.video.videoHeight;
     this.videoRatio = this.videoWidth / this.videoHeight;
