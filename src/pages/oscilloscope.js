@@ -1,16 +1,14 @@
 import AudioContext from "../lib/audioContext";
-import BasePage from "../lib/basePage";
-import Detector from "../lib/detector";
-import { WHITE } from "../lib/canvasStyles";
+import CanvasPage from "../lib/canvasPage";
 
 const FFT_SIZE = 2048;
 const WINDOW_PARAM = 0.16;
-const LINE_WIDTH = 3;
 
-export default class OscilloscopePage extends BasePage {
+export default class OscilloscopePage extends CanvasPage {
+  LINE_WIDTH = 3;
+
   constructor() {
     super();
-    this.requiresSupportFor = [Detector.webgl];
     this.inspiration = {
       title: "Creating a waveform/oscilloscope",
       source: "MDN Web Docs",
@@ -20,8 +18,6 @@ export default class OscilloscopePage extends BasePage {
   }
 
   async init() {
-    super.init();
-
     const stream = await navigator.mediaDevices.getUserMedia({
       video: false,
       audio: true,
@@ -36,11 +32,7 @@ export default class OscilloscopePage extends BasePage {
     this.bufferLength = this.analyser.frequencyBinCount;
     this.data = new Uint8Array(this.bufferLength);
 
-    this.canvas = document.createElement("canvas");
-    this.ctx = this.canvas.getContext("2d");
-    this.onResize();
-
-    return this.canvas;
+    return super.init();
   }
 
   animate() {
@@ -53,7 +45,6 @@ export default class OscilloscopePage extends BasePage {
 
     this.analyser.getByteTimeDomainData(this.data);
 
-    ctx.clearRect(0, 0, width, height);
     ctx.beginPath();
     ctx.moveTo(0, height / 2);
 
@@ -75,12 +66,5 @@ export default class OscilloscopePage extends BasePage {
       0.5 * Math.cos((2 * Math.PI * n) / (this.bufferLength - 1)) +
       (WINDOW_PARAM / 2) * Math.cos((4 * Math.PI * n) / (this.bufferLength - 1))
     );
-  }
-
-  onResize() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.ctx.lineWidth = LINE_WIDTH;
-    this.ctx.strokeStyle = WHITE;
   }
 }

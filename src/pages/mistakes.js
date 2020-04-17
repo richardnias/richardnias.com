@@ -1,35 +1,23 @@
-import BasePage from "../lib/basePage";
-import Detector from "../lib/detector";
-import { WHITE } from "../lib/canvasStyles";
+import CanvasPage from "../lib/canvasPage";
 
 const SEGMENT_LENGTH = 10;
 const SPACING = 10;
 const ERROR_SIZE = Math.PI / 8;
-const LINE_WIDTH = 0.5;
 
 function distance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
-export default class LinePage extends BasePage {
+export default class LinePage extends CanvasPage {
+  LINE_WIDTH = 0.5;
+
   constructor() {
     super();
-    this.requiresSupportFor = [Detector.canvas];
     this.inspiration = {
       title: "Linetrace",
       source: "Inconvergent",
       url: "https://inconvergent.net/generative/linetrace/",
     };
-  }
-
-  async init() {
-    super.init();
-
-    this.canvas = document.createElement("canvas");
-    this.ctx = this.canvas.getContext("2d");
-    this.onResize();
-
-    return this.canvas;
   }
 
   generateLines() {
@@ -85,7 +73,6 @@ export default class LinePage extends BasePage {
 
   animate() {
     let { ctx } = this;
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     let drawLine = this.drawLine.bind(this);
 
@@ -97,10 +84,7 @@ export default class LinePage extends BasePage {
   }
 
   onResize() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.ctx.lineWidth = LINE_WIDTH;
-    this.ctx.strokeStyle = WHITE;
+    super.onResize();
     this.generateLines();
     this.animate();
   }

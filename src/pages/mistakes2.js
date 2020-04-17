@@ -5,14 +5,11 @@ import last from "lodash/last";
 import maxBy from "lodash/maxBy";
 import range from "lodash/range";
 
-import BasePage from "../lib/basePage";
-import Detector from "../lib/detector";
-import { WHITE } from "../lib/canvasStyles";
+import CanvasPage from "../lib/canvasPage";
 
 const SIZE = 1000;
 const ERROR_SIZE = Math.PI;
 const ERROR_FACTOR = 0.3;
-const LINE_WIDTH = 0.7;
 const MARGIN = 0.05;
 const W = 1 - MARGIN * 2;
 
@@ -20,25 +17,17 @@ function distance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
-export default class LinePage extends BasePage {
+export default class LinePage extends CanvasPage {
+  LINE_WIDTH = 0.7;
+  REDRAW = false;
+
   constructor() {
     super();
-    this.requiresSupportFor = [Detector.canvas];
     this.inspiration = {
       title: "Linetrace",
       source: "Inconvergent",
       url: "https://inconvergent.net/generative/linetrace/",
     };
-  }
-
-  async init() {
-    super.init();
-
-    this.canvas = document.createElement("canvas");
-    this.ctx = this.canvas.getContext("2d");
-    this.setDimensions();
-
-    return this.canvas;
   }
 
   generateFirstLine() {
@@ -132,17 +121,11 @@ export default class LinePage extends BasePage {
     this.drawLine(this.ctx, line);
   }
 
-  setDimensions() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.ctx.lineWidth = LINE_WIDTH;
-    this.ctx.strokeStyle = WHITE;
+  onResize() {
+    super.onResize();
+
     this.lines = [this.generateFirstLine()];
     this.spacing = 4;
-  }
-
-  onResize() {
-    this.setDimensions();
 
     if (this.stopped()) {
       this.start();

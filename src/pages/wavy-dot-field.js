@@ -1,6 +1,4 @@
-import BasePage from "../lib/basePage";
-import Detector from "../lib/detector";
-import { WHITE } from "../lib/canvasStyles";
+import CanvasPage from "../lib/canvasPage";
 
 const POINT_RADIUS = 4 / (window.devicePixelRatio + 1);
 const WAVE_RADIUS = 40 / window.devicePixelRatio;
@@ -9,10 +7,9 @@ const DENSITY = 1.2;
 const FREQUENCY = (-4 / 3) * window.devicePixelRatio + 17 / 3;
 const SPEED = 0.025 * (window.devicePixelRatio / 2 + 0.5);
 
-export default class SunflowerPage extends BasePage {
+export default class SunflowerPage extends CanvasPage {
   constructor() {
     super();
-    this.requiresSupportFor = [Detector.canvas];
     this.inspiration = {
       title: "Makin' waves with circles 🌊",
       source: "InertialObservr",
@@ -21,21 +18,11 @@ export default class SunflowerPage extends BasePage {
   }
 
   async init() {
-    super.init();
-
-    this.canvas = document.createElement("canvas");
-    this.ctx = this.canvas.getContext("2d");
-
     this.t = 0;
-
-    this.onResize();
-
-    return this.canvas;
+    return super.init();
   }
 
   drawPoints(ctx, points, t) {
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     points.forEach(function ({ x, y, thetaOffset }) {
       ctx.fillRect(
         x + Math.cos(thetaOffset + t) * WAVE_RADIUS - POINT_RADIUS,
@@ -54,10 +41,30 @@ export default class SunflowerPage extends BasePage {
     this.t += SPEED;
   }
 
+  generatePoints(hPoints, vPoints, waveDirection) {
+    let points = [];
+    for (let i = 0; i < hPoints; i++) {
+      for (let j = 0; j < vPoints; j++) {
+        let x = MARGIN + (WAVE_RADIUS * (i + 0.5)) / DENSITY;
+        let y = MARGIN + (WAVE_RADIUS * (j + 0.5)) / DENSITY;
+        let thetaOffset =
+          ((i * Math.cos(waveDirection)) / hPoints +
+            (j * Math.sin(waveDirection)) / vPoints) *
+          Math.PI *
+          FREQUENCY;
+        points.push({
+          x,
+          y,
+          thetaOffset,
+        });
+      }
+    }
+    return points;
+  }
+
   onResize() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.ctx.fillStyle = WHITE;
+    super.onResize();
+
     let numHorizontalPoints = Math.floor(
       ((window.innerWidth - MARGIN * 2) / WAVE_RADIUS) * DENSITY
     );
@@ -65,19 +72,10 @@ export default class SunflowerPage extends BasePage {
       ((window.innerHeight - MARGIN * 2) / WAVE_RADIUS) * DENSITY
     );
     let waveDirection = Math.atan(-window.innerHeight / window.innerWidth);
-    this.points = [];
-    for (let i = 0; i < numHorizontalPoints; i++) {
-      for (let j = 0; j < numVerticalPoints; j++) {
-        this.points.push({
-          x: MARGIN + (WAVE_RADIUS * (i + 0.5)) / DENSITY,
-          y: MARGIN + (WAVE_RADIUS * (j + 0.5)) / DENSITY,
-          thetaOffset:
-            ((i / numHorizontalPoints) * Math.cos(waveDirection) +
-              (j / numVerticalPoints) * Math.sin(waveDirection)) *
-            Math.PI *
-            FREQUENCY,
-        });
-      }
-    }
+    this.points = this.generatePoints(
+      numHorizontalPoints,
+      numVerticalPoints,
+      waveDirection
+    );
   }
 }

@@ -1,15 +1,13 @@
-import BasePage from "../lib/basePage";
-import Detector from "../lib/detector";
+import CanvasPage from "../lib/canvasPage";
 import range from "lodash/range";
 
 const POINT_RADIUS = 8 / (window.devicePixelRatio + 1);
 const SPACING = 16;
-const SPEED_FACTOR = 5e-6;
+const SPEED_FACTOR = 3e-6;
 
-export default class SinePage extends BasePage {
+export default class SinePage extends CanvasPage {
   constructor() {
     super();
-    this.requiresSupportFor = [Detector.canvas];
     this.inspiration = {
       title: '"Vertically oscillating points..."',
       source: "IntertialObservr",
@@ -18,16 +16,9 @@ export default class SinePage extends BasePage {
   }
 
   async init() {
-    super.init();
-
-    this.canvas = document.createElement("canvas");
-    this.ctx = this.canvas.getContext("2d");
-
-    this.onResize();
-
     this.startTime = +new Date();
 
-    return this.canvas;
+    return super.init();
   }
 
   getXPosition(n) {
@@ -42,8 +33,6 @@ export default class SinePage extends BasePage {
   }
 
   drawPoints(ctx, points) {
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
     points.forEach(function ({ x, y, color }) {
       ctx.fillStyle = color;
       ctx.beginPath();
@@ -71,8 +60,7 @@ export default class SinePage extends BasePage {
   }
 
   onResize() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+    super.onResize();
     let maybeOddNumPoints = Math.floor(window.innerWidth / SPACING);
     this.numPoints = maybeOddNumPoints + (maybeOddNumPoints % 2);
     this.halfWidth = window.innerWidth / 2;

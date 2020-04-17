@@ -1,18 +1,17 @@
 import last from "lodash/last";
 import random from "lodash/random";
 
-import BasePage from "../lib/basePage";
-import Detector from "../lib/detector";
-import { WHITE } from "../lib/canvasStyles";
+import CanvasPage from "../lib/canvasPage";
 import { triangleNumber } from "../lib/util";
 
-const LINE_WIDTH = 0.5;
 const STEPS = 10;
 
-export default class EulerSpiralPage extends BasePage {
+export default class EulerSpiralPage extends CanvasPage {
+  LINE_WIDTH = 0.5;
+  REDRAW = false;
+
   constructor() {
     super();
-    this.requiresSupportFor = [Detector.canvas];
     this.inspiration = {
       title: '"draw a line, and extend it deflected by a fixed angle..."',
       source: "matthen2",
@@ -21,16 +20,10 @@ export default class EulerSpiralPage extends BasePage {
   }
 
   async init() {
-    super.init();
-
     this.segmentLength = random(-14, 14);
     this.theta = random(-0.15, 0.15);
 
-    this.canvas = document.createElement("canvas");
-    this.ctx = this.canvas.getContext("2d");
-    this.setDimensions();
-
-    return this.canvas;
+    return super.init();
   }
 
   generatePoint([x, y], segmentLength, theta) {
@@ -75,20 +68,8 @@ export default class EulerSpiralPage extends BasePage {
     }
   }
 
-  setDimensions() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    this.ctx.lineWidth = LINE_WIDTH;
-    this.ctx.strokeStyle = WHITE;
-    this.points = [[0, 0]];
-  }
-
   onResize() {
-    this.setDimensions();
-
-    if (this.stopped()) {
-      this.start();
-    }
+    super.onResize();
+    this.points = [[0, 0]];
   }
 }

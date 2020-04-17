@@ -1,12 +1,13 @@
 import AudioContext from "../lib/audioContext";
-import BasePage from "../lib/basePage";
+import CanvasPage from "../lib/canvasPage";
 import Detector from "../lib/detector";
-import { WHITE } from "../lib/canvasStyles";
 
 const FFT_SIZE = 32;
 const BAR_WIDTH_MULTIPLIER = 1;
 
-export default class FFTPage extends BasePage {
+export default class FFTPage extends CanvasPage {
+  LINE_WIDTH = 0;
+
   constructor() {
     super();
     this.requiresSupportFor = [Detector.audioContext, Detector.getUserMedia];
@@ -19,8 +20,6 @@ export default class FFTPage extends BasePage {
   }
 
   async init() {
-    super.init();
-
     const stream = await navigator.mediaDevices.getUserMedia({
       video: false,
       audio: true,
@@ -35,11 +34,7 @@ export default class FFTPage extends BasePage {
     this.bufferLength = this.analyser.frequencyBinCount;
     this.data = new Uint8Array(this.bufferLength);
 
-    this.canvas = document.createElement("canvas");
-    this.ctx = this.canvas.getContext("2d");
-    this.onResize();
-
-    return this.canvas;
+    return super.init();
   }
 
   animate() {
@@ -52,19 +47,10 @@ export default class FFTPage extends BasePage {
 
     this.analyser.getByteFrequencyData(this.data);
 
-    ctx.clearRect(0, 0, width, height);
-
     this.data.forEach((d, i) => {
       const x = barWidth * i;
       const barHeight = ((height / 255) * d) / 2;
       ctx.fillRect(x, height - barHeight, barWidth, barHeight);
     });
-  }
-
-  onResize() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.ctx.fillStyle = WHITE;
-    this.ctx.lineWidth = 0;
   }
 }

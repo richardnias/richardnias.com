@@ -1,17 +1,16 @@
-import BasePage from "../lib/basePage";
-import Detector from "../lib/detector";
-import { BLACK, WHITE } from "../lib/canvasStyles";
+import CanvasPage from "../lib/canvasPage";
+import { BLACK } from "../lib/canvasStyles";
 import { triangleNumber } from "../lib/util";
 
-const LINE_WIDTH = 1;
 const ROTATION_SPEED = 0.000004 * window.devicePixelRatio;
 const SEGMENT_LENGTH = 20 / window.devicePixelRatio;
 const TOTAL_POINTS = 300;
 
-export default class EulerSpiral2Page extends BasePage {
+export default class EulerSpiral2Page extends CanvasPage {
+  FILL_STYLE = BLACK;
+
   constructor() {
     super();
-    this.requiresSupportFor = [Detector.canvas];
     this.inspiration = {
       title: "Spiral Generation",
       source: "Ben Sparks",
@@ -20,15 +19,9 @@ export default class EulerSpiral2Page extends BasePage {
   }
 
   async init() {
-    super.init();
-
-    this.canvas = document.createElement("canvas");
-    this.ctx = this.canvas.getContext("2d");
-    this.setDimensions();
-
     this.theta = 0;
 
-    return this.canvas;
+    return super.init();
   }
 
   generatePoint([x, y], segmentLength, theta) {
@@ -52,17 +45,15 @@ export default class EulerSpiral2Page extends BasePage {
 
     ctx.stroke();
     this.ctx.fillRect(
-      x1 - LINE_WIDTH / 2,
-      y1 - LINE_WIDTH / 2,
-      LINE_WIDTH,
-      LINE_WIDTH
+      x1 - this.LINE_WIDTH / 2,
+      y1 - this.LINE_WIDTH / 2,
+      this.LINE_WIDTH,
+      this.LINE_WIDTH
     );
   }
 
   animate() {
     super.animate();
-
-    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     let lastPoint = [0, 0];
 
@@ -79,21 +70,8 @@ export default class EulerSpiral2Page extends BasePage {
     this.theta += ROTATION_SPEED;
   }
 
-  setDimensions() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    this.ctx.lineWidth = LINE_WIDTH;
-    this.ctx.strokeStyle = WHITE;
-    this.ctx.fillStyle = BLACK;
-    this.segmentLength = SEGMENT_LENGTH;
-  }
-
   onResize() {
-    this.setDimensions();
-
-    if (this.stopped()) {
-      this.start();
-    }
+    super.onResize();
+    this.segmentLength = SEGMENT_LENGTH;
   }
 }
