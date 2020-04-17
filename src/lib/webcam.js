@@ -21,6 +21,10 @@ export default class WebcamPage extends BasePage {
     this.video.setAttribute("playsinline", "");
     this.video.setAttribute("autoplay", "");
 
+    this.video.style.display = "none";
+
+    document.body.appendChild(this.video);
+
     const constraints = {
       video: {
         width: REQUESTED_VIDEO_WIDTH,
