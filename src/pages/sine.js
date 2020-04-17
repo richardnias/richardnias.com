@@ -2,7 +2,7 @@ import BasePage from "../lib/basePage";
 import Detector from "../lib/detector";
 import range from "lodash/range";
 
-const POINT_RADIUS = 4;
+const POINT_RADIUS = 8 / (window.devicePixelRatio + 1);
 const SPACING = 16;
 const SPEED_FACTOR = 5e-6;
 
