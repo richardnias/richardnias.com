@@ -10,6 +10,7 @@ function distance(x1, y1, x2, y2) {
 
 export default class LinePage extends CanvasPage {
   LINE_WIDTH = 0.5;
+  REDRAW = false;
 
   constructor() {
     super();

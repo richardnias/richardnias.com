@@ -1,6 +1,7 @@
 import BasePage from "./basePage";
 import Detector from "./detector";
 import { WHITE } from "./canvasStyles";
+import { getTrails } from "./globals";
 
 export default class CanvasPage extends BasePage {
   FILL_STYLE = WHITE;
@@ -25,7 +26,13 @@ export default class CanvasPage extends BasePage {
 
   animate() {
     super.animate();
-    if (this.REDRAW) {
+    if (this.REDRAW && getTrails()) {
+      this.ctx.globalCompositeOperation = "copy";
+      this.ctx.globalAlpha = 0.9;
+      this.ctx.drawImage(this.canvas, 0, 0);
+      this.ctx.globalAlpha = 1;
+      this.ctx.globalCompositeOperation = "source-over";
+    } else if (this.REDRAW) {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
   }

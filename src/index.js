@@ -5,6 +5,7 @@ import hotkeys from "hotkeys-js";
 import { getHiddenState, persistHiddenState } from "./lib/cookie";
 import registerSW from "./lib/registerServiceWorker";
 import { removeCanvas } from "./lib/util";
+import { toggleTrails } from "./lib/globals";
 
 registerSW();
 
@@ -22,6 +23,7 @@ async function fetchNextPage(pageName) {
   const canvas = await currentPage.init();
   removeCanvas();
   setInspiration(currentPage.inspiration);
+  showHideTrailHint(currentPage.REDRAW);
   document.body.appendChild(canvas);
   currentPage.start();
 }
@@ -67,6 +69,17 @@ function setTextHidden(_hidden) {
   });
 }
 
+function showHideTrailHint(trailable) {
+  const elements = document.querySelectorAll(".trail-text");
+  elements.forEach(function toggleClass(element) {
+    if (trailable) {
+      element.classList.remove("hide");
+    } else {
+      element.classList.add("hide");
+    }
+  });
+}
+
 async function routeHandler(context, next) {
   const { route } = context.params;
   try {
@@ -94,4 +107,8 @@ hotkeys("h", function toggleText() {
   hidden = !hidden;
   persistHiddenState(hidden);
   setTextHidden(hidden);
+});
+
+hotkeys("t", function toggleText() {
+  toggleTrails();
 });
