@@ -96,7 +96,10 @@ export default class ShaderPage extends BasePage {
     let height = window.innerHeight;
     this.canvas.width = width;
     this.canvas.height = height;
-    this.resolution = [width, height];
+    this.resolution = [
+      width / (window.devicePixelRatio || 1),
+      height / (window.devicePixelRatio || 1),
+    ];
     this.gl.viewport(0, 0, width, height);
   }
 }
