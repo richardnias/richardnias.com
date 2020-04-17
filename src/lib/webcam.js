@@ -79,6 +79,9 @@ export default class WebcamPage extends BasePage {
   onResize() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
+    this.videoWidth = this.video.videoWidth;
+    this.videoHeight = this.video.videoHeight;
+    this.videoRatio = this.videoWidth / this.videoHeight;
     this.ctx.setTransform(-1, 0, 0, 1, window.innerWidth, 0);
   }
 
