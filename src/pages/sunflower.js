@@ -5,7 +5,7 @@ import { WHITE } from "../lib/canvasStyles";
 const OFFSET = 0;
 const ROTATION_SPEED = 0.000001;
 const INITIAL_ROTATION_FACTOR = (1 + Math.sqrt(5)) / 2 - 0.0001;
-const POINT_RADIUS = 2;
+const POINT_RADIUS = 4 / (window.devicePixelRatio + 1);
 const DENSITY = 6;
 
 export default class SunflowerPage extends BasePage {
