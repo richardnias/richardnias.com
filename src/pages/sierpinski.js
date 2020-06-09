@@ -8,7 +8,7 @@ const RULES = {
 
 const ANGLE_STEP = -Math.PI / 3;
 const MARGIN = 10;
-const MAX_ITERATIONS = 12;
+const MAX_ITERATIONS = 10;
 
 export default class LSystemPage extends CanvasPage {
   REDRAW = false;
@@ -82,7 +82,7 @@ export default class LSystemPage extends CanvasPage {
     this.index = 0;
     this.linesPerStep = Math.max(
       1,
-      Math.floor(Math.pow(2, this.iterations) / 40)
+      Math.round(Math.pow(2, this.iterations) / 4)
     );
   }
 
@@ -108,18 +108,22 @@ export default class LSystemPage extends CanvasPage {
     }
     if (this.index < this.state.length) {
       super.animate();
-    } else if (this.iterations < MAX_ITERATIONS) {
-      this.iterations += 2;
-      setTimeout(this.restart.bind(this), 1000);
     } else {
-      this.pause();
-      this.index = 0;
+      this.iterations += 2 * this.iterationsDirection
+      if (this.iterations < 0) {
+        this.iterations = 0;
+        this.iterationsDirection = 1;
+      } else if (this.iterations >= MAX_ITERATIONS) {
+        this.iterationsDirection = -1;
+      }
+      setTimeout(this.restart.bind(this), 1000);
     }
   }
 
   onResize() {
     super.onResize();
     this.iterations = 0;
+    this.iterationsDirection = 1;
     this.reset();
   }
 }
