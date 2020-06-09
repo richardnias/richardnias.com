@@ -109,7 +109,7 @@ export default class LSystemPage extends CanvasPage {
     if (this.index < this.state.length) {
       super.animate();
     } else {
-      this.iterations += 2 * this.iterationsDirection
+      this.iterations += 2 * this.iterationsDirection;
       if (this.iterations < 0) {
         this.iterations = 0;
         this.iterationsDirection = 1;
