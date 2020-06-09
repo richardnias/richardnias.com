@@ -1,72 +1,66 @@
-import CanvasPage from "../lib/canvasPage";
+import CanvasPage from '../lib/canvasPage'
 
-const OFFSET = 0;
-const ROTATION_SPEED = 0.000001;
-const INITIAL_ROTATION_FACTOR = (1 + Math.sqrt(5)) / 2 - 0.0001;
-const POINT_RADIUS = 4 / (window.devicePixelRatio + 1);
-const DENSITY = 6;
+const OFFSET = 3
+const PHI = (Math.sqrt(5) - 1) * Math.PI
+const DENSITY = 1.2
 
 export default class SunflowerPage extends CanvasPage {
-  constructor() {
-    super();
+  constructor () {
+    super()
     this.inspiration = {
-      title: "The Golden Ratio (why it is so irrational)",
-      source: "Numberphile",
-      url: "https://www.youtube.com/watch?v=sj8Sg8qnjOg",
-    };
+      title: 'This spiral is rotated by the golden angle...',
+      source: 'matthen.com',
+      url: 'https://blog.matthen.com/post/127400828111/this-spiral-is-rotated-by-the-golden-angle-every',
+    }
   }
 
-  async init() {
-    this.rotationFactor = INITIAL_ROTATION_FACTOR;
-    return super.init();
-  }
-
-  getPolarCoords(index, rotationFactor) {
+  getPolarCoords (index, rotationFactor) {
     return {
       radius: OFFSET + index / DENSITY,
-      theta: ((Math.PI * 2) / rotationFactor) * index,
-    };
+      theta: PHI * index + rotationFactor,
+    }
   }
 
-  polarCoordsToCartesian({ radius, theta }) {
+  polarCoordsToCartesian ({ radius, theta }) {
     return {
       x: this.canvas.width / 2 + Math.cos(theta) * radius,
       y: this.canvas.height / 2 + Math.sin(theta) * radius,
-    };
+      radius: Math.sqrt(radius/7),
+      alpha: Math.pow(radius / this.sunflowerRadius - 1, 2) * 2
+    }
   }
 
-  drawPoints(ctx, points) {
-    points.forEach(function ({ x, y }) {
-      ctx.fillRect(
-        x - POINT_RADIUS,
-        y - POINT_RADIUS,
-        POINT_RADIUS * 2,
-        POINT_RADIUS * 2
-      );
-    });
+  drawPoint (ctx, { x, y, radius, alpha }) {
+    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`
+    ctx.beginPath()
+    ctx.arc(x, y, radius, 0, 2 * Math.PI)
+    ctx.fill()
   }
 
-  animate() {
-    super.animate();
-
-    let points = [];
+  animate () {
+    super.animate()
 
     for (let i = 0; i < this.numPoints; i++) {
-      let polarCoords = this.getPolarCoords(i, this.rotationFactor);
-      points.push(this.polarCoordsToCartesian(polarCoords));
+      let polarCoords = this.getPolarCoords(i, this.rotationFactor)
+      let point = this.polarCoordsToCartesian(polarCoords)
+      this.drawPoint(this.ctx, point)
     }
 
-    this.drawPoints(this.ctx, points);
+    if (this.frameIndex % 2 === 0) {
+      this.rotationFactor += PHI
+    }
 
-    this.rotationFactor += ROTATION_SPEED;
+    this.frameIndex++
   }
 
-  onResize() {
-    super.onResize();
-    this.numPoints =
-      Math.min(
+  onResize () {
+    super.onResize()
+    this.sunflowerRadius = Math.min(
         window.innerWidth / 2 - OFFSET,
         window.innerHeight / 2 - OFFSET
-      ) * DENSITY;
+      )
+    this.numPoints = this.sunflowerRadius * DENSITY
+    this.rotationFactor = 0
+    this.frameIndex = 0
   }
 }
