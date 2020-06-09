@@ -7,7 +7,7 @@ export default class SinePage extends CanvasPage {
   constructor() {
     super();
     this.inspiration = {
-      title: '"Making relaxing math gifs..."',
+      title: "Making relaxing math gifs...",
       source: "IntertialObservr",
       url: "https://twitter.com/InertialObservr/status/1240008000078614528",
     };

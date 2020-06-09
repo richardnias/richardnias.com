@@ -8,7 +8,7 @@ export default class SunflowerPage extends CanvasPage {
   constructor() {
     super();
     this.inspiration = {
-      title: '"This spiral is rotated by the golden angle..."',
+      title: "This spiral is rotated by the golden angle...",
       source: "matthen.com",
       url:
         "https://blog.matthen.com/post/127400828111/this-spiral-is-rotated-by-the-golden-angle-every",

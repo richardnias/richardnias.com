@@ -13,7 +13,7 @@ export default class EulerSpiralPage extends CanvasPage {
   constructor() {
     super();
     this.inspiration = {
-      title: '"draw a line, and extend it deflected by a fixed angle..."',
+      title: "draw a line, and extend it deflected by a fixed angle...",
       source: "matthen2",
       url: "https://twitter.com/matthen2/status/1249611168265547776",
     };

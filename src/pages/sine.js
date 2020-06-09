@@ -9,7 +9,7 @@ export default class SinePage extends CanvasPage {
   constructor() {
     super();
     this.inspiration = {
-      title: '"Vertically oscillating points..."',
+      title: "Vertically oscillating points...",
       source: "IntertialObservr",
       url: "https://twitter.com/InertialObservr/status/1234227684537860097",
     };
